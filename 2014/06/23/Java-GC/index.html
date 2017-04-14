@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java垃圾回收 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="垃圾收集算法引用计数堆中的每个对象都有一个引用计数，当对象被引用时引用计数加1，当对象的引用被重新赋值或超出有效区域时引用计数减1，当一个对象被回收后，它所引用的对象的引用计算减1。当一个对象的引用计数变为0时就被回收。">
+<meta name="keywords" content="Java,JVM,垃圾回收,GC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java垃圾回收">
+<meta property="og:url" content="http://www.angeldevil.me/2014/06/23/Java-GC/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="垃圾收集算法引用计数堆中的每个对象都有一个引用计数，当对象被引用时引用计数加1，当对象的引用被重新赋值或超出有效区域时引用计数减1，当一个对象被回收后，它所引用的对象的引用计算减1。当一个对象的引用计数变为0时就被回收。">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java垃圾回收">
+<meta name="twitter:description" content="垃圾收集算法引用计数堆中的每个对象都有一个引用计数，当对象被引用时引用计数加1，当对象的引用被重新赋值或超出有效区域时引用计数减1，当一个对象被回收后，它所引用的对象的引用计算减1。当一个对象的引用计数变为0时就被回收。">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Java-GC" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/06/23/Java-GC/" class="article-date">
+  	<time datetime="2014-06-23T05:00:37.000Z" itemprop="datePublished">6月 23 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java垃圾回收
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GC/">GC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/垃圾回收/">垃圾回收</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h1><h2 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h2><p>堆中的每个对象都有一个引用计数，当对象被引用时引用计数加1，当对象的引用被重新赋值或超出有效区域时引用计数减1，当一个对象被回收后，它所引用的对象的引用计算减1。当一个对象的引用计数变为0时就被回收。</p>
+<a id="more"></a>
+<h3 id="引用计数的优点："><a href="#引用计数的优点：" class="headerlink" title="引用计数的优点："></a>引用计数的优点：</h3><p>垃圾收集器可以很快地执行，当一个对象的引用数为0时就可以回收这个对象，垃圾收集交织在程序的正常执行过程中，不用长时间中断程序的正常执行。</p>
+<h3 id="引用计数的缺点："><a href="#引用计数的缺点：" class="headerlink" title="引用计数的缺点："></a>引用计数的缺点：</h3><ol>
+<li>每次引用计数的增加和减少会带来额外的开销</li>
+<li>无法检测出循环引用</li>
+</ol>
+<h2 id="根搜索算法"><a href="#根搜索算法" class="headerlink" title="根搜索算法"></a>根搜索算法</h2><p>垃圾检测通过建立一个根对象的集合（局部变量、栈桢中的操作数，在本地方法中引用的对象，常量池等）并检查从这些根对象开始的可触及性来实现。根对象总是可访问的，如果存在根对象到一个对象的引用路径，那么称这个对象是可触及的或活动对象，否则是不可触及的，不可触及的对象就是垃圾对象。</p>
+<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p>分为标记和清除两个阶段，在标记阶段，垃圾收集器跟踪从根对象的引用，在追踪的过程中对遇到的对象打一个标记，最终未被标记的对象就是垃圾对象，在清除阶段，回收垃圾对象占用的内存。可以在对象本身添加跟踪标记，也可以用一个独立的位图来设置标记。</p>
+<p>标记清除法是基础的收集算法，其他算法大多时针对这个算法缺点的改进。</p>
+<p>有两个缺点：</p>
+<ol>
+<li>效率</li>
+<li>存在内存碎片</li>
+</ol>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>将内存划分为大小相等的两个区域，每次只使用其中的一个区域，当这个区域的内存用完了，就将可触及的对象直接复制到新的区域并连续存放以消除内存碎片，当可触及对象复制完后，清除旧内存区域，修改引用的值。</p>
+<p>这种算法的缺点很明显，可使用内存变为了原来的一半，太过浪费。</p>
+<p>一般情况下，新生代中的对象大多生命周期很短，也就是说当进行垃圾收集时，大部分对象都是垃圾，只有一小部分对象会存活下来，所以只要保留一小部分内存保存存活下来的对象就行了，用不着使用一半的内存。在新生代中一般将内存划分为三个部分：一个较大的Eden空间和两个较小的Survior空间（一样大小），每次使用Eden和一个Survior的内存，进行垃圾收集时将Eden和使用的Survior中的存活的对象复制到另一个Survior空间中，然后清除这两个空间的内存，下次使用Eden和另一个Survior，HotSpot中默认将这三个空间的比例划分为8:1:1，这样被浪费掉的空间就只有总内存的1/10了。</p>
+<p>这样的内存空间划分是基于这样一种假设，即每次垃圾收集时大部分对象都是垃圾，只有少部分对象存活。如果遇到例外的情况怎么办，在某次垃圾收集时存活下来的对象超过了预留的那个Survior空间的总大小，这就需要依赖其他的内存进行分配担保了（参考分代收集，前面的描述中也说了这是新生代中的方法）</p>
+<h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><p>普通的标记清除会在内存中留下内存碎片，复制算法如果不想浪费掉50%内存就需要有内存分配担保，一般是内存分代，但总有一代是没有其他代为它担保的。标记整理算法中标记的过程同标记清理一样，但整理部分不是直接清除掉垃圾对象，而是将活动对象统一移动一内存的一端，然后清除边界外的内存区域，这样就避免了内存碎片。也不会浪费内存，不需要其他内存进行担保</p>
+<h3 id="分代收集"><a href="#分代收集" class="headerlink" title="分代收集"></a>分代收集</h3><p>大多数程序中创建的大部分对象生命周期都很短，而且会有一小部分生命周期长的对象，为了克服复制收集器中每次垃圾收集都要拷贝所有的活动对象的缺点，将内存划分为不同的区域，更多地收集短生命周期所在的内存区域，当对象经历一定次数的垃圾收集存活时，提升它的存在的区域。一般是划分为新生代和老年代。新生代又划分为Eden区，From Survior区和To Survior区。</p>
+<h3 id="自适应收集器"><a href="#自适应收集器" class="headerlink" title="自适应收集器"></a>自适应收集器</h3><p>监听堆中的情形，并且对应地调用合适的垃圾收集技术。</p>
+<h1 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h1><h2 id="Serial"><a href="#Serial" class="headerlink" title="Serial"></a>Serial</h2><p>一个单线程的收集器，在进行垃圾收集时会暂停其他线程的工作，不适合用到Server端的虚拟机，但Client模式的模拟机还是可以用的，因为Client模式下的应用分配到的系统内存一般不大，垃圾收集可以很快完成。优点就是简单高效，没有线程交互开销，可以获得最高的单线程收集效率。</p>
+<h2 id="ParNew"><a href="#ParNew" class="headerlink" title="ParNew"></a>ParNew</h2><p>Seria的多线程版本，可以多个线程收集垃圾，但如果CPU只有一核且没有超线程，效果就不一定比Serial好了，如果是多核或有超线程，可以保证效果好于Serial，除Seria之外，这是唯一能与CMS收集器配合的垃圾收集器</p>
+<h2 id="Parallel-Scavenge"><a href="#Parallel-Scavenge" class="headerlink" title="Parallel Scavenge"></a>Parallel Scavenge</h2><p>使用复制算法的新生代多线程垃圾收集器，Parallel Scavenge收集器的关注点和其他收集器不同，其他收集器的关注点是尽可能缩短垃圾收集时用户线程等待的时间，而Parallel Scavenge收集器的目标是达到一个可控制的吞吐量（Throughput），即CPU用于运行用户代码的时间与CPU总消耗时间的比值。以缩短用户线程等待时间的收集器适合用于需要与用户交互的程序，而以吞吐量为目标的收集器适合用于不需要和用户太多的交互，以后台运算为目标的任务。</p>
+<p>Parallel Scavenge可以通过参数设置每次垃圾收集需要停顿的时间和吞吐量目标，但停顿时间并不是越小越好，这是以牺牲吞吐量和新生代空间为代价的，因为要使垃圾收集停顿时间缩小，只能进行少量多次收集，或减小需要收集的空间大小。</p>
+<p>还有一个-XX:UseAdaptiveSizePolicy参数，指定这个参数后，就不需要手工指定新生代的大小、Eden区和Survior区的比例大小和晋升老年代对象年龄等细节参数了，虚拟机会根据收集到的信息动态调整这些参数，这称为自适应策略。</p>
+<h2 id="Serial-Old"><a href="#Serial-Old" class="headerlink" title="Serial Old"></a>Serial Old</h2><p>Serial的老年代版本，单线程收集器，使用”标记-整理”算法，主要被Client模式下的虚拟机使用，当被使用在Server模式时主要有两个用途：</p>
+<ol>
+<li>与Parallel Scavenge配合使用</li>
+<li>作为CMS收集失败时的备选方案。</li>
+</ol>
+<h2 id="Parallel-Old"><a href="#Parallel-Old" class="headerlink" title="Parallel Old"></a>Parallel Old</h2><p>Parallel Scavenge的老年代版本，使用”标记-整理”算法，JDK1.6后提供的，在此之前，如果新生代选择了Parallel Scavenge，老年代只能选择Serial Old，由于Serial Old是单线程的垃圾收集器，可能会影响收集性能。Parallel Old出现后，就可以分别在新生代和老年代选择Parallel Scavenge和Parallel Old组合了。</p>
+<h2 id="CMS-Concurrent-Mark-Sweep"><a href="#CMS-Concurrent-Mark-Sweep" class="headerlink" title="CMS(Concurrent Mark Sweep)"></a>CMS(Concurrent Mark Sweep)</h2><p>以获取最短回收停顿时间为目标的收集器，使用“标记-清除”算法，整个回收过程分为以下4步：</p>
+<ul>
+<li>初始标记（CMS Initial Mark）</li>
+<li>并发标记（CMS Current Mark）</li>
+<li>重新标记（CMS Remark）</li>
+<li>并发清楚（CMS Concurrent Sweep）</li>
+</ul>
+<p>初始标记与重新标记阶段仍会暂停用户线程的运行。</p>
+<p>初始标记只是记录下GC Root能<strong>直接关联</strong>到的对象，速度很快。</p>
+<p>并发标记就是GC Roots Tracing了，速度较慢，但可以和用户线程同时运行。</p>
+<p>重新标记是修正并发标记时由于用户线程运行导致的标记记录变动，这个阶段会使用户线程停顿，停顿时间比初始标记略长，但仍小于重新标记。</p>
+<p>并发清除就是清除垃圾对象了，耗时较长，但可与用户线程同时工作。</p>
+<h3 id="CMS的缺点"><a href="#CMS的缺点" class="headerlink" title="CMS的缺点"></a>CMS的缺点</h3><ol>
+<li>对CPU资源敏感，并发阶段和用户线程同时运行，影响服务器的响应速度，尤其是CPU核心数少时</li>
+<li>无法处理浮动垃圾，由于并发阶段用户线程同时在运行，可能会在垃圾收集过程中产生新的垃圾，CMS无法处理这部分浮动垃圾，由于在进行垃圾收集时用户线程同时在运行，需要额外的内存空间，所以不能等到内存满时再进行GC，需要预留一部分空间，如果预留的这部分空间不够GC时用户线程创建新对象使用，就会使用预备方法，使用Serial Old进行一次Full GC。</li>
+<li>CMS基于“标记-清除”算法，进行垃圾回收后会存在内存碎片，当申请大的连续内存时可能内存不足，此时需要进行一次Full GC，可以通过参数指定进行Full GC后或进行多少次Full GC后进行一次内存压缩来整理内存碎片。</li>
+</ol>
+<h2 id="G1-Garbage-First"><a href="#G1-Garbage-First" class="headerlink" title="G1(Garbage First)"></a>G1(Garbage First)</h2><p>基于”标记-整理”算法，避免了内存碎片的问题，并可精确地控制垃圾回收时的停顿。</p>
+<p>G1收集器可以实现基本不牺牲吞吐量的前提下完成低停顿的内存回收，不同于之前的垃圾回收器，G1收集器的回收区域不是整个新生代或老年代，而是将整个Java堆划分为多个固定大小的区域，并跟踪这些区域里的垃圾堆积程度，在后台维护一个优先列表，优先回收垃圾最多的区域。区域的划分使每次回收时间变短，而优先级的划分使得每次回收的区域可以回收最多的垃圾，这就使用G1收集器可以在有限的时间内获取最高的收集效率。</p>
+<h1 id="内存分配与回收策略"><a href="#内存分配与回收策略" class="headerlink" title="内存分配与回收策略"></a>内存分配与回收策略</h1><p>对像优先在新生代Eden区分配，当Eden区没有足够的内存时会发生一次Minor GC（新生代GC，Major GC或Full GC是老年代GC）</p>
+<p>大对象可以直接在老年代分配内存，可以通过参数指定一个大小，大于这个大小的对象直接在老年代中分配内存。</p>
+<p>进行Minor GC时，Eden区和一个Survior区中存活的对象会被复制到另一个Survior区，一个对象每在一次Minor GC中存活下来一次后这个对象的年龄就加1，当这个对象的年龄大于一定值（默认15）就会进入老年代。</p>
+<p>如果Survior中相同年龄的对象占用的空间大于Survior空间的一半，那么年龄大于或等于这个年龄的对象会直接进入老年代，而不用等到达到特定年龄</p>
+<p>当进行Minor GC时，虚拟机会检测之前每次晋升到老年代的平均大小是否大于老年代的剩余空间大小，如果小于，判断是否开启了HandlerPromotionFailure允许担保失败，如果开启了就只进行Minor GC，否则进行Full GC。由于使用的之前Minor GC时的平均大小，如果某一次突然大小变大，导致老年代剩余空间不够，即担保失败，会再进行一次Full GC。</p>
+<h1 id="finalize"><a href="#finalize" class="headerlink" title="finalize"></a>finalize</h1><p>GC时会对活动对象进行标记，没有被标记的对象就是垃圾对象，但垃圾对象不会直接被清除，垃圾收集器还会判断是否需要执行对象的finalize方法，如果对象没有覆写finalize方法或它的finalize已经被执行过一次，那么是没有必要执行的，否则就认为是有必要执行的，当被判断为有必要执行时，这个对象会被放入一个F-Queue队列中，由一个后台的低优先级的Finalizer线程执行队列中的对象的finalize方法，对象可以在这个方法中中复活自己，即重新被其他对象引用，但这个函数只会被垃圾收集器运行一下，第二次回收这个对象时这个函数不会再被调用。稍后GC会对F-Queue队列中的对象执行第二次标记。</p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/06/23/Java-GC/">http://www.angeldevil.me/2014/06/23/Java-GC/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/06/21/Android-Starting-Window(Preview-Window)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android Starting Window(Preview Window)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/07/01/how-to-read-a-book/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">《如何阅读一本书》读书笔记</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/06/23/Java-GC/" data-title="Java垃圾回收" data-url="http://www.angeldevil.me/2014/06/23/Java-GC/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

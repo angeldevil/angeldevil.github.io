@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>UniversalImageLoader的一个小问题 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在使用UniversalImageLoader时遇到了一个小问题，多个地方同时通过ImageLoader.getInstance().loadImage(url, new ImageSize(dp72, dp72)...加载图像时，有一定机率只有部分地方能正确地加载到图片，其他地方是什么结果呢？从Log看是这个样子：">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UniversalImageLoader的一个小问题">
+<meta property="og:url" content="http://www.angeldevil.me/2015/03/19/a-bug-in-universal-image-loader/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="最近在使用UniversalImageLoader时遇到了一个小问题，多个地方同时通过ImageLoader.getInstance().loadImage(url, new ImageSize(dp72, dp72)...加载图像时，有一定机率只有部分地方能正确地加载到图片，其他地方是什么结果呢？从Log看是这个样子：">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UniversalImageLoader的一个小问题">
+<meta name="twitter:description" content="最近在使用UniversalImageLoader时遇到了一个小问题，多个地方同时通过ImageLoader.getInstance().loadImage(url, new ImageSize(dp72, dp72)...加载图像时，有一定机率只有部分地方能正确地加载到图片，其他地方是什么结果呢？从Log看是这个样子：">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-a-bug-in-universal-image-loader" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/19/a-bug-in-universal-image-loader/" class="article-date">
+  	<time datetime="2015-03-19T09:27:47.000Z" itemprop="datePublished">3月 19 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UniversalImageLoader的一个小问题
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用UniversalImageLoader时遇到了一个小问题，多个地方同时通过<code>ImageLoader.getInstance().loadImage(url, new ImageSize(dp72, dp72)...</code>加载图像时，有一定机率只有部分地方能正确地加载到图片，其他地方是什么结果呢？从Log看是这个样子：</p>
+<a id="more"></a>
+<blockquote>
+<p>1    03-19 15:41:44.167    1500-1541/xxx D/ImageLoader﹕ Start display image task [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>2    03-19 15:41:44.167    1500-1541/xxx D/ImageLoader﹕ Load image from network [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>3    03-19 15:41:44.167    1500-1541/xxx D/ImageLoader﹕ Cache image on disk [cxxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>4    03-19 15:41:44.187    1500-1538/xxx D/ImageLoader﹕ Start display image task [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>5    03-19 15:41:44.187    1500-1538/xxx D/ImageLoader﹕ Image already is loading. Waiting… [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>6    03-19 15:41:44.199    1500-1541/xxx D/ImageLoader﹕ Cache image in memory [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>7    03-19 15:41:44.199    1500-1538/xxx D/ImageLoader﹕ …Get cached bitmap from memory after waiting. [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>8    03-19 15:41:44.219    1500-1500/xxx D/ImageLoader﹕ Display image in ImageAware (loaded from NETWORK) [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]<br>9    03-19 15:41:44.219    1500-1500/xxx D/ImageLoader﹕ ImageAware is reused for another image. Task is cancelled. [xxxxxxx/group1/M00/00/04/wKgKklUKfS-AGTJRAAAV5nnd6hE739.jpg_144x144]</p>
+</blockquote>
+<p>有了Log，再结合源码，看下到底是什么原因，从上面的Log可以看到，两个地方加载同一张图片，都发现缓存中没有，所以都从网络上加载（通过分析可以知道，第1，2，3，6，8是第一个加载的地方的Log，4，5，7，9是第二个加载的地方的Log）。</p>
+<p>UniversalImageLoader实际加载图片的类叫<code>LoadAndDisplayImageTask</code>，这是一个<code>Runnable</code>，所以我们从它的<code>run</code>方法开始看。首先要强调一点，由于这两个地方加载的是相同的Url，并且ImageSize相同，所以它们的memoryCacheKey是相同的，接下来就看<code>run</code>方法，首先是第一部分代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ReentrantLock loadFromUriLock = imageLoadingInfo.loadFromUriLock;</div><div class="line">L.d(LOG_START_DISPLAY_IMAGE_TASK, memoryCacheKey);</div><div class="line"><span class="keyword">if</span> (loadFromUriLock.isLocked()) &#123; <span class="comment">// 注意这里</span></div><div class="line">    L.d(LOG_WAITING_FOR_IMAGE_LOADED, memoryCacheKey);</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadFromUriLock.lock();</div></pre></td></tr></table></figure>
+<p>由于memoryCacheKey相同，所以这里获得的是同一个锁，结果就是第一个线程锁住这个锁进行图片加载，所以打印出了前3行Log。</p>
+<p>接着轮到第二个线程执行，它发现另一个线程锁住了<code>loadFromUriLock</code>，所以它打印出了第4和第5行Log。</p>
+<p>然后又换第一个线程执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    checkTaskNotActual();</div><div class="line">    bmp = configuration.memoryCache.get(memoryCacheKey);</div><div class="line">    <span class="keyword">if</span> (bmp == <span class="keyword">null</span> || bmp.isRecycled()) &#123;</div><div class="line">        bmp = tryLoadBitmap();</div><div class="line">        <span class="keyword">if</span> (bmp == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        checkTaskNotActual();</div><div class="line">        checkTaskInterrupted();</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (bmp != <span class="keyword">null</span> &amp;&amp; options.isCacheInMemory()) &#123;</div><div class="line">            L.d(LOG_CACHE_IMAGE_IN_MEMORY, memoryCacheKey); <span class="comment">// 1</span></div><div class="line">            configuration.memoryCache.put(memoryCacheKey, bmp);</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        loadedFrom = LoadedFrom.MEMORY_CACHE;</div><div class="line">        L.d(LOG_GET_IMAGE_FROM_MEMORY_CACHE_AFTER_WAITING, memoryCacheKey); <span class="comment">// 2</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    checkTaskNotActual();</div><div class="line">    checkTaskInterrupted();</div><div class="line">&#125; <span class="keyword">catch</span> (TaskCancelledException e) &#123;</div><div class="line">    fireCancelEvent();</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">    <span class="comment">// 释放锁</span></div><div class="line">    loadFromUriLock.unlock();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 显示图片</span></div><div class="line">DisplayBitmapTask displayBitmapTask = <span class="keyword">new</span> DisplayBitmapTask(bmp, imageLoadingInfo, engine, loadedFrom);</div><div class="line">runTask(displayBitmapTask, syncLoading, handler, engine);</div></pre></td></tr></table></figure>
+<p>第一个线程加载完图片后，在<code>finally</code>中释放了锁，然后通过<code>DisplayBitmapTask</code>进行图片的显示，从Log中可以分析出，线程中加载完图片后打印了注释1处的Log，然后释放了锁，轮到线程2执行。</p>
+<p>由于线程一已经加载完图片并存入了缓存了，所以线程二会进入代码注释2的代码块，打印出第7行Log。</p>
+<p>然后线程一线程二再依次运行分别打印第8，9行Log，两个线程都取到了Bitmap，为何会一个正确加载完图片，而另一个有一定机率加载不到呢？这要看UniversalImageLoader的缓存与判断View重用的机制。</p>
+<p>ImageLoader在加载图片前会调用<code>ImageLoaderEngine.prepareDisplayTaskFor</code>方法来记录一些东西，具体就是记录一个ImageAware在加载哪一个Url，以判断当图片加载完成后，这个ImageAware是否被重用来加载其他的Url了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;Integer, String&gt; cacheKeysForImageAwares = Collections.synchronizedMap(<span class="keyword">new</span> HashMap&lt;Integer, String&gt;());</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">prepareDisplayTaskFor</span><span class="params">(ImageAware imageAware, String memoryCacheKey)</span> </span>&#123;</div><div class="line">    cacheKeysForImageAwares.put(imageAware.getId(), memoryCacheKey);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到就是通过一个Map记录的，以ImageAware的id为键，对于LoadImage方法，使用的是<code>NonViewAware</code>，它的id是<code>Url.hasCode</code>，所以两个地方加载同一个图片，在<code>cacheKeysForImageAwares</code>中只有一条记录。</p>
+<p>当加载完图片后是通过<code>DisplayBitmapTask</code>来显示图片并回调我们的Listener的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (imageAware.isCollected()) &#123;</div><div class="line">        L.d(LOG_TASK_CANCELLED_IMAGEAWARE_COLLECTED, memoryCacheKey);</div><div class="line">        listener.onLoadingCancelled(imageUri, imageAware.getWrappedView());</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isViewWasReused()) &#123;</div><div class="line">        L.d(LOG_TASK_CANCELLED_IMAGEAWARE_REUSED, memoryCacheKey);</div><div class="line">        listener.onLoadingCancelled(imageUri, imageAware.getWrappedView());</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        L.d(LOG_DISPLAY_IMAGE_IN_IMAGEAWARE, loadedFrom, memoryCacheKey);</div><div class="line">        displayer.display(bitmap, imageAware, loadedFrom);</div><div class="line">        engine.cancelDisplayTaskFor(imageAware);</div><div class="line">        listener.onLoadingComplete(imageUri, imageAware.getWrappedView(), bitmap);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">cancelDisplayTaskFor</span><span class="params">(ImageAware imageAware)</span> </span>&#123;</div><div class="line">    cacheKeysForImageAwares.remove(imageAware.getId());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isViewWasReused</span><span class="params">()</span> </span>&#123;</div><div class="line">    String currentCacheKey = engine.getLoadingUriForView(imageAware);</div><div class="line">    <span class="keyword">return</span> !memoryCacheKey.equals(currentCacheKey);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当第一个地方执行到这个run方法时，会走到else分支里，打印出第8行的Log，然后调用<code>ImageLoaderEngine.cancelDisplayTaskFor</code>方法，移除在Map中的记录，并回调我们的Listener。</p>
+<p>然后第二个地方执行到run中的<code>isViewWasReused</code>方法时，由于Map中的记录已经被第一个线程移除了，所以取得的currentCacheKey是null，就会判定为View被重用了，所以不能得到正确的结果。</p>
+<p>那么为什么有时两个地方能同时得到正确的结果呢？那是因为如果当第一个线程进入到else代码块但在执行<code>cancelDisplayTaskFor</code>之前进行了线程调度，另一个线程还是有机会同时进入else代码块的。</p>
+<p>其实对于NonViewAware，基本是不可能被重用的，所以感觉在这里可以做下特殊处理，或者对其生成 id的方法进行下修改（但这样会多次从网络取同一张图片）。或者像Volley一样，当执行一个请求时，如果发现这个图片正在Loading，就将其加入一个列表，当加载完后统一向这个列表里的请求发送消息，但这个修改就比较麻烦了，所以还是对NonViewAware做下特殊处理比较好，毕竟这个基本是不可能被重用的。</p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2015/03/19/a-bug-in-universal-image-loader/">http://www.angeldevil.me/2015/03/19/a-bug-in-universal-image-loader/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/12/29/rounded-image/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          圆角图片，可以指定特定的角为圆角
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/09/08/Two-problems-about-LinkMovementMethod-and-URLSPan/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LinkMovementMethod与URLSpan相关的两个问题</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015/03/19/a-bug-in-universal-image-loader/" data-title="UniversalImageLoader的一个小问题" data-url="http://www.angeldevil.me/2015/03/19/a-bug-in-universal-image-loader/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

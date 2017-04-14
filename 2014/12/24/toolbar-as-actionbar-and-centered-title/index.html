@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Toolbar作为ActionBar与标题居中 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Toollbar作为ActionBar很简单，直接获取到Toolbar后调用setSupportActionBar(toolbar);就行了，但是如果整个应用中统一使用Toolbar替代ActionBar的话，最方便的方式肯定是将Toolbar的布局提取出来然后在不同的Activity中直接include，像下面这样：">
+<meta name="keywords" content="ActionBar,Toolbar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Toolbar作为ActionBar与标题居中">
+<meta property="og:url" content="http://www.angeldevil.me/2014/12/24/toolbar-as-actionbar-and-centered-title/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="Toollbar作为ActionBar很简单，直接获取到Toolbar后调用setSupportActionBar(toolbar);就行了，但是如果整个应用中统一使用Toolbar替代ActionBar的话，最方便的方式肯定是将Toolbar的布局提取出来然后在不同的Activity中直接include，像下面这样：">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Toolbar作为ActionBar与标题居中">
+<meta name="twitter:description" content="Toollbar作为ActionBar很简单，直接获取到Toolbar后调用setSupportActionBar(toolbar);就行了，但是如果整个应用中统一使用Toolbar替代ActionBar的话，最方便的方式肯定是将Toolbar的布局提取出来然后在不同的Activity中直接include，像下面这样：">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-toolbar-as-actionbar-and-centered-title" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/24/toolbar-as-actionbar-and-centered-title/" class="article-date">
+  	<time datetime="2014-12-24T07:31:42.000Z" itemprop="datePublished">12月 24 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Toolbar作为ActionBar与标题居中
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ActionBar/">ActionBar</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Toolbar/">Toolbar</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Toollbar作为ActionBar很简单，直接获取到Toolbar后调用<code>setSupportActionBar(toolbar);</code>就行了，但是如果整个应用中统一使用Toolbar替代ActionBar的话，最方便的方式肯定是将Toolbar的布局提取出来然后在不同的Activity中直接<code>include</code>，像下面这样：</p>
+<a id="more"></a>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/toolbar"</span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">​    <span class="attr">android:layout_height</span>=<span class="string">"?actionBarSize"</span></div><div class="line">    <span class="attr">android:background</span>=<span class="string">"@null"</span></div><div class="line">    <span class="attr">app:popupTheme</span>=<span class="string">"@style/ThemeOverlay.AppCompat.Light"</span></div><div class="line">    <span class="attr">app:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/toolbar_title"</span></div><div class="line">        <span class="attr">style</span>=<span class="string">"@style/TextAppearance.AppCompat.Widget.ActionBar.Title"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">              <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">              <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">              <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">              <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line">              <span class="attr">tools:context</span>=<span class="string">"com.e7live.dreamfuture.activity.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/toolbar"</span>/&gt;</span></div><div class="line">    ...</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后，为了使用方便，在BaseActivity中设置Toolbar为ActionBar：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">View v = findViewById(R.id.toolbar);</div><div class="line"><span class="keyword">if</span> (v != <span class="keyword">null</span>) &#123;</div><div class="line">    toolbar = (Toolbar) v;</div><div class="line">    setSupportActionBar(toolbar);</div><div class="line">    toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);</div><div class="line">    <span class="keyword">if</span> (toolbarTitle != <span class="keyword">null</span>) &#123;</div><div class="line">        getSupportActionBar().setDisplayShowTitleEnabled(<span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是，在BaseActivity中什么时候调用上面这一段代码呢？一般情况下很多操作会在BaseActivity的onCreate中执行，但一般子类的写法是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在BaseActivity的onCreate中还没有设置ContentView，通过findViewById是找不到Toolbar的，而且一般情况下会在Activity的onCreate中设置ActionBar的一些属性，想到的最适合执行这段代码的地方就是在BaseActivity中重载<code>setContentView</code>了。</p>
+<p>只需要注意一点，就是在子类的onCreate中对ActionBar的操作要在setContentView之后，一般这个不会有什么问题。</p>
+<p>再说下标题居中，前面在toolbar.xml中看到在Toolbar内有一个TextView，是用来作为标题的，在BaseActivity重载的setContentView中也判断了如果存在这个TextView就隐藏掉Toolbar原来的Title，Toolbar是一个ViewGroup，可以很方便地添加ChildView并设置相关属性。</p>
+<p>显示标题的TextView有了，原来的标题也被隐藏了，接下来就是怎么给这个作为标题的TextView设置要显示的标题了，当然可以在每个Activity中对这个TextView调用setText，但太麻烦了，我们都很懒的，很多页面的标题也都是写到AndroidManifest中的。其实Activity有一个<code>onTitleChanged</code>的接口，在Activity的<code>onPostCreate</code>与<code>setTitle</code>中都会调用这个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!isChild()) &#123;</div><div class="line">        mTitleReady = <span class="keyword">true</span>;</div><div class="line">        onTitleChanged(getTitle(), getTitleColor());</div><div class="line">    &#125;</div><div class="line">    mCalled = <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所以只需要在BaseActivity中重载这个方法就行了，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onTitleChanged</span><span class="params">(CharSequence title, <span class="keyword">int</span> color)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onTitleChanged(title, color);</div><div class="line">    <span class="keyword">if</span> (toolbarTitle != <span class="keyword">null</span>) &#123;</div><div class="line">        toolbarTitle.setText(title);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过AndroidManifest指定的Title会自动显示到这个TextView中，不用做任何处理，如果在代码中想改变标题的话，直接调用<code>Activity.setTitle</code>就行了</p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/12/24/toolbar-as-actionbar-and-centered-title/">http://www.angeldevil.me/2014/12/24/toolbar-as-actionbar-and-centered-title/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/13/AutoScrollViewPager/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          AutoScrollViewPager
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/12/29/rounded-image/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">圆角图片，可以指定特定的角为圆角</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/12/24/toolbar-as-actionbar-and-centered-title/" data-title="Toolbar作为ActionBar与标题居中" data-url="http://www.angeldevil.me/2014/12/24/toolbar-as-actionbar-and-centered-title/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

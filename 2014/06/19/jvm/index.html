@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JVM虚拟机结构 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JVM的主要结构如下图所示，图片引用自舒の随想日记。">
+<meta name="keywords" content="Java,JVM,虚拟机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM虚拟机结构">
+<meta property="og:url" content="http://www.angeldevil.me/2014/06/19/jvm/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="JVM的主要结构如下图所示，图片引用自舒の随想日记。">
+<meta property="og:image" content="http://blog.hesey.net/wp-content/uploads/2011/04/1353310.png">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM虚拟机结构">
+<meta name="twitter:description" content="JVM的主要结构如下图所示，图片引用自舒の随想日记。">
+<meta name="twitter:image" content="http://blog.hesey.net/wp-content/uploads/2011/04/1353310.png">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-jvm" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/06/19/jvm/" class="article-date">
+  	<time datetime="2014-06-19T08:55:05.000Z" itemprop="datePublished">6月 19 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM虚拟机结构
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JVM的主要结构如下图所示，图片引用自<a href="http://blog.hesey.net/2011/04/introduction-to-java-virtual-machine.html" target="_blank" rel="external">舒の随想日记</a>。</p>
+<a id="more"></a>
+<p><img src="http://blog.hesey.net/wp-content/uploads/2011/04/1353310.png" alt="JVM结构"></p>
+<p>方法区和堆由所有线程共享，其他区域都是线程私有的</p>
+<h1 id="程序计数器（Program-Counter-Register）"><a href="#程序计数器（Program-Counter-Register）" class="headerlink" title="程序计数器（Program Counter Register）"></a>程序计数器（Program Counter Register）</h1><p>类似于PC寄存器，是一块较小的内存区域，通过程序计数器中的值寻找要执行的指令的字节码，由于多线程间切换时要恢复每一个线程的当前执行位置，所以每个线程都有自己的程序计算器。这一个区域不会有OutOfMemeryError。当执行Java方法时，这里存储的执行的指令的地址，如果执行的是本地方法，这里的值是Undefined。</p>
+<h1 id="虚拟机栈（Java-Stack）"><a href="#虚拟机栈（Java-Stack）" class="headerlink" title="虚拟机栈（Java Stack）"></a>虚拟机栈（Java Stack）</h1><p>虚拟机栈也是线程私有的，每创建一个线程，虚拟机就会为这个线程创建一个虚拟机栈，虚拟机栈表示Java方法执行的内存模型，每调用一个方法，就会生成一个栈帧（Stack Frame）用于存储方法的本地变量表、操作栈、方法出口等信息，当这个方法执行完后，就会弹出相应的栈帧。</p>
+<p>如果请求的栈的深度过大，虚拟机可能会抛出<strong>StackOverflowError</strong>异常，如果虚拟机的实现中允许虚拟机栈动态扩展，当内存不足以扩展栈的时候，会抛出<strong>OutOfMemoryError</strong>异常。</p>
+<h2 id="栈帧（Stack-Frame）"><a href="#栈帧（Stack-Frame）" class="headerlink" title="栈帧（Stack Frame）"></a>栈帧（Stack Frame）</h2><p>栈帧分为三部分：局部变量区（Local Variables）、操作数栈（Operand Stack）和帧数据区（Frame Data）。</p>
+<h3 id="局部变量区（Loca-Variables）"><a href="#局部变量区（Loca-Variables）" class="headerlink" title="局部变量区（Loca Variables）"></a>局部变量区（Loca Variables）</h3><p>局部变量区被组织一个一个从0开始的字数组，byte、short、char在存储前被转换为int，boolean也被转换为int，0表示false，非0表示true，long和double占据两个字长。</p>
+<h3 id="操作数栈（Operand-Stack）"><a href="#操作数栈（Operand-Stack）" class="headerlink" title="操作数栈（Operand Stack）"></a>操作数栈（Operand Stack）</h3><p>操作数栈也被组织为一个字数组，但不同于局部变量区，它不是通过数组下标访问的，而是能过栈的Push和Pop操作，前一个操作Push进的数据可以被下一个操作Pop出来使用。</p>
+<h3 id="帧数据区（Frame-Data）"><a href="#帧数据区（Frame-Data）" class="headerlink" title="帧数据区（Frame Data）"></a>帧数据区（Frame Data）</h3><p>这部分的作用主要有三部分：</p>
+<ul>
+<li>常量池中数据的解析</li>
+<li>方法执行完后处理方法返回，恢复调用方现场</li>
+<li>方法执行过程中抛出异常时的异常处理，存储有一个异常表，当出现异常时虚拟机查找相应的异常表看是否有对应的Catch语句，如果没有就抛出异常终止这个方法调用</li>
+</ul>
+<h1 id="本地方法栈（Native-Method-Stack）"><a href="#本地方法栈（Native-Method-Stack）" class="headerlink" title="本地方法栈（Native Method Stack）"></a>本地方法栈（Native Method Stack）</h1><p>与虚拟机栈类似，只是是执行本地方法时使用的。</p>
+<h1 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h1><p>用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译后的代码等信息。</p>
+<p>方法区是线程间共享的，当两个线程同时需要加载一个类型时，只有一个类会请求ClassLoader加载，另一个线程会等待。</p>
+<p>对于每一个加载的类型，会在方法区中保存以下信息：</p>
+<ul>
+<li>类及其父类的全限定名（java.lang.Object没有父类）</li>
+<li>类的类型（Class or Interface）</li>
+<li>访问修饰符（public, abstract, final）</li>
+<li>实现的接口的全限定名的列表</li>
+<li>常量池</li>
+<li>字段信息</li>
+<li>方法信息</li>
+<li>除常量外的静态变量</li>
+<li>ClassLoader引用</li>
+<li>Class引用</li>
+</ul>
+<p>对于每一个字段，会在方法区中保存以下信息（字段声明顺序也会保存）：</p>
+<ul>
+<li>字段名</li>
+<li>字段的类型</li>
+<li>字段的修饰符(public, private , protected, static, final, volatile, transient)</li>
+</ul>
+<p>对于每一个方法，会在方法区中保存以下信息（方法声明顺序也会保存）：</p>
+<ul>
+<li>方法名</li>
+<li>方法返回类型（或void）</li>
+<li>参数信息</li>
+<li>方法修饰符(public, private, protected , static, final, synchronized, native, abstract)</li>
+</ul>
+<p>如果方法不是抽象方法并不是本地方法（Native Method），还会保存以下信息：</p>
+<ul>
+<li>方法的字节码</li>
+<li>本地变量表及操作数栈的大小</li>
+<li>异常表</li>
+</ul>
+<p>虚拟机需要存储一些数据，用来快速地访问一个类对象中的方法，一般实现为一个方法表。</p>
+<p>方法区中还有一部分是运行时常量池，主要用来存储编译时生成的字面量和符号引用，常量也可以在运行时产生，如String的intern方法。</p>
+<p>方法区中也可能存在GC，但虚拟机规范对此不做要求，主要是回收一些常量和卸载一些不用的类型信息，不过要卸载一个类的条件很难达到，而且些处GC其实也回收不了多少内存。</p>
+<h1 id="堆（Heap）"><a href="#堆（Heap）" class="headerlink" title="堆（Heap）"></a>堆（Heap）</h1><p>虚拟机中用于存放对象与数组实例的地方，垃圾回收的主要区域就是这里（还可能有方法区）。</p>
+<p>如果垃圾收集算法采用按代收集（目前大都是这样），这部分还可以细分为新生代和老年代。</p>
+<p>新生代又可能分为Eden区，From Survivor区和To Survivor区，主要是为了垃圾回收。所有的线程共享Java堆，在这里还可以划分线程私有的缓冲区（Thread Local Allocation Buffer，TLAB）。</p>
+<p>Java堆只要求逻辑上是连续的，在物理空间上可以不连续。</p>
+<h1 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h1><p>JDK1.4中引用了NIO，并引用了Channel与Buffer，可以使用Native函数库直接分配堆外内存，并通过一个存储在Java堆里面的DirectByteBuffer对象作为这块内存的引用进行操作。</p>
+<h1 id="对象访问"><a href="#对象访问" class="headerlink" title="对象访问"></a>对象访问</h1><p>当新建一个对象时，会在堆中为这个对象分配内存，并在栈中有一个对这个对象引用，除此之外，在Java堆中还要能通过这个对象找到它的类型信息（对象类型，父类，实现的接口，包含的字段与方法等）。</p>
+<p>Reference在Java虚拟机中定义为指向对象的引用，但没有定义这个Reference应该有怎么实现。</p>
+<p>一种实现是Reference直接存储对象在堆内的地址，对象的类型信息可以在对象在堆中的内存布局中存储，如存储在对象内存的开头等。</p>
+<p>另一种实现是Reference指向一个句柄表中的一个位置，句柄中保存了对象的实际位置及它对应的类型信息。</p>
+<p>使用句柄的好处是当在内存中移动对象的位置时，只需要更新句柄表中的内容，不需要改变引用值，但会多一次内存访问开销，直接引用的优缺点与此相反。</p>
+<p><br><br>参考资料：</p>
+<ol>
+<li>深入Java虚拟机</li>
+<li>深入理解Java虚拟机-JVM高级特性与最佳实践</li>
+<li><a href="http://blog.hesey.net/2011/04/introduction-to-java-virtual-machine.html" target="_blank" rel="external">浅析Java虚拟机结构与机制</a></li>
+</ol>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/06/19/jvm/">http://www.angeldevil.me/2014/06/19/jvm/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/06/21/Android-Starting-Window(Preview-Window)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Starting Window(Preview Window)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/06/19/jvm/" data-title="JVM虚拟机结构" data-url="http://www.angeldevil.me/2014/06/19/jvm/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

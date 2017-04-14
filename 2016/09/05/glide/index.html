@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Glide源码导读 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近比较无聊，为了找点事干，就花了两天时间把Glide的源码大概看了一下。刚开始看Glide的源码头脑还是比较乱的，因为作者引入了几个概念，又大量用了泛型，如果不了解这些概念读起代码来就比较痛苦，我也没有详细看各种实现细节的东西，只是了解了下这个框架的大概样子，在这篇文章里，我会介绍下Glide中的一些关键概念，并走一遍图片加载流程，如果你要阅读Glide源码的话，应该多少会有点帮助。">
+<meta name="keywords" content="Android,Glide">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Glide源码导读">
+<meta property="og:url" content="http://www.angeldevil.me/2016/09/05/glide/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="最近比较无聊，为了找点事干，就花了两天时间把Glide的源码大概看了一下。刚开始看Glide的源码头脑还是比较乱的，因为作者引入了几个概念，又大量用了泛型，如果不了解这些概念读起代码来就比较痛苦，我也没有详细看各种实现细节的东西，只是了解了下这个框架的大概样子，在这篇文章里，我会介绍下Glide中的一些关键概念，并走一遍图片加载流程，如果你要阅读Glide源码的话，应该多少会有点帮助。">
+<meta property="og:image" content="http://www.angeldevil.me/2016/09/05/glide/sequence1.png">
+<meta property="og:image" content="http://www.angeldevil.me/2016/09/05/glide/sequence2.png">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glide源码导读">
+<meta name="twitter:description" content="最近比较无聊，为了找点事干，就花了两天时间把Glide的源码大概看了一下。刚开始看Glide的源码头脑还是比较乱的，因为作者引入了几个概念，又大量用了泛型，如果不了解这些概念读起代码来就比较痛苦，我也没有详细看各种实现细节的东西，只是了解了下这个框架的大概样子，在这篇文章里，我会介绍下Glide中的一些关键概念，并走一遍图片加载流程，如果你要阅读Glide源码的话，应该多少会有点帮助。">
+<meta name="twitter:image" content="http://www.angeldevil.me/2016/09/05/glide/sequence1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-glide" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/05/glide/" class="article-date">
+  	<time datetime="2016-09-05T04:28:33.000Z" itemprop="datePublished">9月 5 2016</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Glide源码导读
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Glide/">Glide</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近比较无聊，为了找点事干，就花了两天时间把Glide的源码大概看了一下。刚开始看Glide的源码头脑还是比较乱的，因为作者引入了几个概念，又大量用了泛型，如果不了解这些概念读起代码来就比较痛苦，我也没有详细看各种实现细节的东西，只是了解了下这个框架的大概样子，在这篇文章里，我会介绍下Glide中的一些关键概念，并走一遍图片加载流程，如果你要阅读Glide源码的话，应该多少会有点帮助。</p>
+<a id="more"></a>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>首先是三个最基本的概念：<code>Model</code>, <code>Data</code>和<code>Resource</code>。</p>
+<p>想一下，我们加载图片需要什么？一般是一个url，但url并不是所有情况，还有资源ID，文件等等，甚至可以是Feed流中的一条Feed，虽然一般我们会从Feed中取出图片的url来转换为从url中加载的情况，Glide把这些抽像为了一个概念，就是<code>Model</code>，所以<code>Model</code>就是数据地址的最初来源。</p>
+<p><code>Model</code>并不能直接解析为图片，比如一个url，是要转换为网络流的InputStream才能被解析为图片的，<code>Model</code>需要进行一次转换才能做为数据解析的数据源，这些转换后的东西就叫做<code>Data</code>，Glide并没有一个Data类，但有很多和它相关的概念，如dataClase，DataFetcher等。</p>
+<p>那么<code>Resource</code>呢，其实它就是一个包装类，一个wrapper，它wrap一个对象，使这个对象可以通过对象池进行缓存与重用。</p>
+<p>这三个基本概念介绍完了，接下来看一下Glide基本框架。</p>
+<p>做为一个图片加载框架，肯定会包含缓存部分。</p>
+<p>可以从网上很容易的了解到，Glide的磁盘缓存可以缓存原始数据，也可以缓存处理过的数据。什么意思呢，就是你有一张1000x1000的图片，但你是在列表中展示的，比如是200x200，那么缓存时可以直接将整个网络流缓存下来，即1000x1000的图片，要展示的时候再缩放，但这就降低了展示效率，所以Glide也可以把处理过的200x200的图片缓存起来，增加了缓存大小，但优化了展示速度。</p>
+<p>至于怎么把数据缓存到磁盘，就引入了一个叫<code>Encoder</code>的概念，<code>Encoder</code>是用来持久化数据的。</p>
+<p>但看源码时你会发现，Glide中有一个类叫<code>Registry</code>，可以注册多个<code>Encoder</code>，但你会发现它还可以注册<code>ResourceEncoder</code>。这两个<code>Encoder</code>很容易引起混淆，而其实<code>ResouseEncoder</code>继承自<code>Encoder</code>。<code>Encoder</code>是用来持久化<code>Data</code>的，<code>ResourceEncoder</code>是用来持久化<code>Resource</code>的。看Glide默认注册的<code>Encoder</code>就知道了，默认注册的<code>Encoder</code>为<code>ByteBuffer</code>和<code>InputStream</code>，而<code>ResourceEncoder</code>是<code>Bitmap</code>、<code>BitmapDrawable</code>和<code>GifDrawable</code>，也就是一个持久化原始数据，一个持久化处理过的数据。我感觉把<code>Encoder</code>做为一个上级的抽象，引入一个和<code>ResourceEncoder</code>同级的<code>DataEncoder</code>就好理解了，正好和前面的基本概念<code>Data</code>和<code>Resource</code>对应。</p>
+<p>有<code>Encoder</code>就有<code>Decoder</code>，对应的类叫<code>ResourceDecoder</code>，用来将数据（InputStream等）解析为<code>Resource</code>。</p>
+<p>图片加载出来后还可能会应用各种变换，如圆角图片，圆形图片，处理这部分工作的叫<code>Transformation</code></p>
+<p>基础概念介绍的差不多了，加载流程也差不多出来了：</p>
+<p><img src="sequence1.png" alt="sequence1"></p>
+<p>但我们发现前面的介绍中少了一环，即：Glide是怎么把<code>Model</code>转换为<code>Data</code>的。这就引入另一个概念，<code>ModelLoader</code>，就是把<code>Model</code>转换成<code>Data</code>的，为了方便说明，直接把这个类的代码贴上来了，去掉了一些注释。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* A factory interface for translating an arbitrarily complex data model into a concrete data type</div><div class="line">* that can be used by an &#123;<span class="doctag">@link</span> DataFetcher&#125; to obtain the data for a resource represented by the</div><div class="line">* model.</div><div class="line">*</div><div class="line">* <span class="doctag">@param</span> &lt;Model&gt; The type of the model.</div><div class="line">* <span class="doctag">@param</span> &lt;Data&gt;  The type of the data that can be used by a</div><div class="line">* &#123;<span class="doctag">@link</span> com.bumptech.glide.load.ResourceDecoder&#125; to decode a resource.</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ModelLoader</span>&lt;<span class="title">Model</span>, <span class="title">Data</span>&gt; </span>&#123;</div><div class="line"></div><div class="line"> <span class="comment">/**</span></div><div class="line">  * Contains a set of &#123;<span class="doctag">@link</span> com.bumptech.glide.load.Key Keys&#125; identifying the source of the load,</div><div class="line">  * alternate cache keys pointing to equivalent data, and a</div><div class="line">  * &#123;<span class="doctag">@link</span> com.bumptech.glide.load.data.DataFetcher&#125; that can be used to fetch data not found in</div><div class="line">  * cache.</div><div class="line">  *</div><div class="line">  * <span class="doctag">@param</span> &lt;Data&gt; The type of data that well be loaded.</div><div class="line">  */</div><div class="line"> <span class="class"><span class="keyword">class</span> <span class="title">LoadData</span>&lt;<span class="title">Data</span>&gt; </span>&#123;</div><div class="line">   <span class="keyword">public</span> <span class="keyword">final</span> Key sourceKey;</div><div class="line">   <span class="keyword">public</span> <span class="keyword">final</span> List&lt;Key&gt; alternateKeys;</div><div class="line">   <span class="keyword">public</span> <span class="keyword">final</span> DataFetcher&lt;Data&gt; fetcher;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="title">LoadData</span><span class="params">(Key sourceKey, DataFetcher&lt;Data&gt; fetcher)</span> </span>&#123;</div><div class="line">     <span class="keyword">this</span>(sourceKey, Collections.&lt;Key&gt;emptyList(), fetcher);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="title">LoadData</span><span class="params">(Key sourceKey, List&lt;Key&gt; alternateKeys, DataFetcher&lt;Data&gt; fetcher)</span> </span>&#123;</div><div class="line">     <span class="keyword">this</span>.sourceKey = Preconditions.checkNotNull(sourceKey);</div><div class="line">     <span class="keyword">this</span>.alternateKeys = Preconditions.checkNotNull(alternateKeys);</div><div class="line">     <span class="keyword">this</span>.fetcher = Preconditions.checkNotNull(fetcher);</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="function">LoadData&lt;Data&gt; <span class="title">buildLoadData</span><span class="params">(Model model, <span class="keyword">int</span> width, <span class="keyword">int</span> height, Options options)</span></span>;</div><div class="line"></div><div class="line"> <span class="function"><span class="keyword">boolean</span> <span class="title">handles</span><span class="params">(Model model)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>ModelLoader</code>有两个方法，一个<code>handles</code>表示是否可以处理这个类型的<code>Model</code>，如果可以的话就可以通过<code>buildLoadData</code>生成一个<code>LoadData</code>，而<code>LoadData</code>包含了要用来做缓存的key，及用来获取数据的<code>DataFetcher</code>。</p>
+<p>到这里，整个加载流程就清楚了：</p>
+<p><img src="sequence2.png" alt="sequence2"></p>
+<h1 id="基本加载流程"><a href="#基本加载流程" class="headerlink" title="基本加载流程"></a>基本加载流程</h1><p>接下来要做的就是根据我们的使用方法走一遍流程，调用如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Glide.with(mContext)</div><div class="line">    .load(url)</div><div class="line">    .apply(RequestOptions.placeholderOf(R.drawable.loading))</div><div class="line">    .into(myImageView);</div></pre></td></tr></table></figure>
+<p>一步步看，先是<code>Glide.with(mContext)</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> RequestManager <span class="title">with</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line"> RequestManagerRetriever retriever = RequestManagerRetriever.get();</div><div class="line"> <span class="keyword">return</span> retriever.get(context);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>RequestManagerRetriever</code>获取到了一个<code>RequestManager</code>，至于为什么还需要一个<code>RequestManagerRetriever</code>并有各种重载方法，主要是因为Glide通过<code>SupportRequestManagerFragment</code>和<code>RequestManagerFragment</code>关联了Activity或Fragment的生命周期，用来做<code>pauseRequests</code>等操作。</p>
+<p>然后是<code>load</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> RequestBuilder&lt;Drawable&gt; <span class="title">load</span><span class="params">(@Nullable Object model)</span> </span>&#123;</div><div class="line"> <span class="keyword">return</span> asDrawable().load(model);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> RequestBuilder&lt;Drawable&gt; <span class="title">asDrawable</span><span class="params">()</span> </span>&#123;</div><div class="line"> <span class="keyword">return</span> as(Drawable.class).transition(<span class="keyword">new</span> DrawableTransitionOptions());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> &lt;ResourceType&gt; <span class="function">RequestBuilder&lt;ResourceType&gt; <span class="title">as</span><span class="params">(Class&lt;ResourceType&gt; resourceClass)</span> </span>&#123;</div><div class="line"> <span class="keyword">return</span> <span class="keyword">new</span> RequestBuilder&lt;&gt;(glide.getGlideContext(), <span class="keyword">this</span>, resourceClass);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>是<code>asDrawable.load(model)</code>的缩写，就是说这个Model我是要加载为Drawable的，最终返回一个<code>RequestBuilder</code>，看名字就知道是做什么了，不过这个类主要是设置Thumbnail Request，Transition等个别设置（旧版本中placeHolder等也是在这里设置的），大部分设置在<code>RequestOptions</code>里，这就是下面这一句：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply(RequestOptions.placeholderOf(R.drawable.loading))</div></pre></td></tr></table></figure>
+<p>应用一个<code>RequestOptions</code>，<code>RequestOptions</code>可以设置各种请求相关的选项，如占位图片，加载失败的图片，缓存策略等。<code>RequestOptions</code>继承自<code>BaseRequestOptions</code>，但全是工厂方法生成各种RequestOptions。</p>
+<p>最后就是<code>into</code>了，把图片加载到一个<code>Target</code>中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Target&lt;TranscodeType&gt; <span class="title">into</span><span class="params">(ImageView view)</span> </span>&#123;</div><div class="line">  ...</div><div class="line">  <span class="keyword">return</span> into(context.buildImageViewTarget(view, transcodeClass));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> &lt;Y extends Target&lt;TranscodeType&gt;&gt; <span class="function">Y <span class="title">into</span><span class="params">(@NonNull Y target)</span> </span>&#123;</div><div class="line"> Util.assertMainThread();</div><div class="line"> Preconditions.checkNotNull(target);</div><div class="line"> <span class="keyword">if</span> (!isModelSet) &#123;</div><div class="line">   <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"You must call #load() before calling #into()"</span>);</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> Request previous = target.getRequest();</div><div class="line"></div><div class="line"> <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</div><div class="line">   requestManager.clear(target);</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> requestOptions.lock();</div><div class="line"> Request request = buildRequest(target);</div><div class="line"> target.setRequest(request);</div><div class="line"> requestManager.track(target, request);</div><div class="line"></div><div class="line"> <span class="keyword">return</span> target;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>Target</code>是要加载到的目标，比如<code>ImageViewTarget</code>，<code>AppWidgetTarget</code>，在这里我们传进来了一个<code>ImageView</code>，内部生成了一个<code>DrawableImageViewTarget</code>。这里最主要的操作是<code>buildRequest</code>然后交给<code>RequestManager</code>去<code>track</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">track</span><span class="params">(Target&lt;?&gt; target, Request request)</span> </span>&#123;</div><div class="line"> targetTracker.track(target);</div><div class="line"> requestTracker.runRequest(request);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// RequestTracker</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runRequest</span><span class="params">(Request request)</span> </span>&#123;</div><div class="line"> requests.add(request);</div><div class="line"> <span class="keyword">if</span> (!isPaused) &#123;</div><div class="line">   request.begin();</div><div class="line"> &#125; <span class="keyword">else</span> &#123;</div><div class="line">   pendingRequests.add(request);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>TargetTracker</code>主要就是记录一下所有正在加载的图片的<code>Target</code>，所以加载行为是在<code>RequestTracker.runRequest</code>中的，<code>runRequest</code>先判断是否是pause状态（RequestManager设置），如果不是就直接调用<code>Request.begin</code>触发加载，否则就回到pending队列里等待resume。</p>
+<p>除了设置缩略图的情景，使用的<code>Request</code>都是<code>SingleRequest</code>，看一下它的<code>begin</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">begin</span><span class="params">()</span> </span>&#123;</div><div class="line"> stateVerifier.throwIfRecycled();</div><div class="line"> startTime = LogTime.getLogTime();</div><div class="line"> <span class="keyword">if</span> (model == <span class="keyword">null</span>) &#123;</div><div class="line">   <span class="keyword">if</span> (Util.isValidDimensions(overrideWidth, overrideHeight)) &#123;</div><div class="line">     width = overrideWidth;</div><div class="line">     height = overrideHeight;</div><div class="line">   &#125;</div><div class="line">   <span class="comment">// Only log at more verbose log levels if the user has set a fallback drawable, because</span></div><div class="line">   <span class="comment">// fallback Drawables indicate the user expects null models occasionally.</span></div><div class="line">   <span class="keyword">int</span> logLevel = getFallbackDrawable() == <span class="keyword">null</span> ? Log.WARN : Log.DEBUG;</div><div class="line">   onLoadFailed(<span class="keyword">new</span> GlideException(<span class="string">"Received null model"</span>), logLevel);</div><div class="line">   <span class="keyword">return</span>;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> status = Status.WAITING_FOR_SIZE;</div><div class="line"> <span class="keyword">if</span> (Util.isValidDimensions(overrideWidth, overrideHeight)) &#123;</div><div class="line">   onSizeReady(overrideWidth, overrideHeight);</div><div class="line"> &#125; <span class="keyword">else</span> &#123;</div><div class="line">   target.getSize(<span class="keyword">this</span>);</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="keyword">if</span> ((status == Status.RUNNING || status == Status.WAITING_FOR_SIZE)</div><div class="line">     &amp;&amp; canNotifyStatusChanged()) &#123;</div><div class="line">   target.onLoadStarted(getPlaceholderDrawable());</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">if</span> (Log.isLoggable(TAG, Log.VERBOSE)) &#123;</div><div class="line">   logV(<span class="string">"finished run method in "</span> + LogTime.getElapsedMillis(startTime));</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>加载逻辑是这几行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (Util.isValidDimensions(overrideWidth, overrideHeight)) &#123;</div><div class="line">  onSizeReady(overrideWidth, overrideHeight);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  target.getSize(<span class="keyword">this</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>判断下是否知道<code>Target</code>的大小，如果大小已知就调用<code>onSizeReady</code>，否则就调用<code>target.getSize</code>获取它的大小，当成功获取到大小后，会通过回调继续调用<code>onSizeReady</code>，所以整个加载方法都是在<code>onSizeReady</code>里的。至于<code>Target</code>怎么获取它的大小，那要看它的实现了，对于<code>ImageViewTarget</code>，是通过<code>ViewTreeObserver.OnPreDrawListener</code>等到View要测绘的时候就知道它的大小了。</p>
+<p><code>onSizeReady</code>就是把操作转移到了<code>Engine.load</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> &lt;R&gt; <span class="function">LoadStatus <span class="title">load</span><span class="params">(</span></span></div><div class="line">   GlideContext glideContext,</div><div class="line">   Object model,</div><div class="line">   Key signature,</div><div class="line">   <span class="keyword">int</span> width,</div><div class="line">   <span class="keyword">int</span> height,</div><div class="line">   Class&lt;?&gt; resourceClass,</div><div class="line">   Class&lt;R&gt; transcodeClass,</div><div class="line">   Priority priority,</div><div class="line">   DiskCacheStrategy diskCacheStrategy,</div><div class="line">   Map&lt;Class&lt;?&gt;, Transformation&lt;?&gt;&gt; transformations,</div><div class="line">   <span class="keyword">boolean</span> isTransformationRequired,</div><div class="line">   Options options,</div><div class="line">   <span class="keyword">boolean</span> isMemoryCacheable,</div><div class="line">   <span class="keyword">boolean</span> useUnlimitedSourceExecutorPool,</div><div class="line">   ResourceCallback cb) &#123;</div><div class="line"> Util.assertMainThread();</div><div class="line"> <span class="keyword">long</span> startTime = LogTime.getLogTime();</div><div class="line"></div><div class="line"> EngineKey key = keyFactory.buildKey(model, signature, width, height, transformations,</div><div class="line">     resourceClass, transcodeClass, options);</div><div class="line"></div><div class="line"> EngineResource&lt;?&gt; cached = loadFromCache(key, isMemoryCacheable);</div><div class="line"> <span class="keyword">if</span> (cached != <span class="keyword">null</span>) &#123;</div><div class="line">   cb.onResourceReady(cached, DataSource.MEMORY_CACHE);</div><div class="line">   <span class="keyword">if</span> (Log.isLoggable(TAG, Log.VERBOSE)) &#123;</div><div class="line">     logWithTimeAndKey(<span class="string">"Loaded resource from cache"</span>, startTime, key);</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> EngineResource&lt;?&gt; active = loadFromActiveResources(key, isMemoryCacheable);</div><div class="line"> <span class="keyword">if</span> (active != <span class="keyword">null</span>) &#123;</div><div class="line">   cb.onResourceReady(active, DataSource.MEMORY_CACHE);</div><div class="line">   <span class="keyword">if</span> (Log.isLoggable(TAG, Log.VERBOSE)) &#123;</div><div class="line">     logWithTimeAndKey(<span class="string">"Loaded resource from active resources"</span>, startTime, key);</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> EngineJob&lt;?&gt; current = jobs.get(key);</div><div class="line"> <span class="keyword">if</span> (current != <span class="keyword">null</span>) &#123;</div><div class="line">   current.addCallback(cb);</div><div class="line">   <span class="keyword">if</span> (Log.isLoggable(TAG, Log.VERBOSE)) &#123;</div><div class="line">     logWithTimeAndKey(<span class="string">"Added to existing load"</span>, startTime, key);</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> <span class="keyword">new</span> LoadStatus(cb, current);</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> EngineJob&lt;R&gt; engineJob = engineJobFactory.build(key, isMemoryCacheable,</div><div class="line">     useUnlimitedSourceExecutorPool);</div><div class="line"> DecodeJob&lt;R&gt; decodeJob = decodeJobFactory.build(</div><div class="line">     glideContext,</div><div class="line">     model,</div><div class="line">     key,</div><div class="line">     signature,</div><div class="line">     width,</div><div class="line">     height,</div><div class="line">     resourceClass,</div><div class="line">     transcodeClass,</div><div class="line">     priority,</div><div class="line">     diskCacheStrategy,</div><div class="line">     transformations,</div><div class="line">     isTransformationRequired,</div><div class="line">     options,</div><div class="line">     engineJob);</div><div class="line"> jobs.put(key, engineJob);</div><div class="line"> engineJob.addCallback(cb);</div><div class="line"> engineJob.start(decodeJob);</div><div class="line"></div><div class="line"> <span class="keyword">if</span> (Log.isLoggable(TAG, Log.VERBOSE)) &#123;</div><div class="line">   logWithTimeAndKey(<span class="string">"Started new load"</span>, startTime, key);</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">return</span> <span class="keyword">new</span> LoadStatus(cb, engineJob);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在<code>Engine.load</code>中，先<code>loadFromCache</code>，如果缓存没有命中就再<code>loadFromActiveResources</code>，这是两级内存缓存，第一级是LruCache，第二级是ActiveCache，主要作用是，有可能一个图片很早就被加载了，可能已经从LruCache被移除掉了，但这个图片可能还在被某一个地方引用着，也就是还是Active的，那它就可能在将来仍被引用到，所以就把它保留在二级的ActiveCache中，ActiveCache中是以弱引用引用图片的，并通过<code>ReferenceQueue</code>监测弱引用的回收，然后用<code>Handler.IdleHandler</code>在CPU空闲时被被回收的引用项从ActiveCache中移除。</p>
+<p>接下来看对应的Key是否已经正在加载，如果是的话，就<code>addCallback</code>，这样如果有多个地方同时请求同一张图片的话，只会生成一个加载任务，并都能收到回调，这点是比Universal-Image-Loader好的地方。</p>
+<p>正常的加载流程是生成一个<code>EngineJob</code>和一个<code>DecodeJob</code>，通过<code>engineJob.start(decodeJob)</code>来进行实际的加载。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(DecodeJob&lt;R&gt; decodeJob)</span> </span>&#123;</div><div class="line"> <span class="keyword">this</span>.decodeJob = decodeJob;</div><div class="line"> GlideExecutor executor = decodeJob.willDecodeFromCache()</div><div class="line">     ? diskCacheExecutor</div><div class="line">     : getActiveSourceExecutor();</div><div class="line"> executor.execute(decodeJob);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>EngineJob.start</code>直接将<code>DecodeJob</code>交给Executor去执行了（<code>DecodeJob</code>实现了<code>Runnable</code>接口）。<code>DecodeJob</code>的加载操作放到了<code>runWrapped</code>中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">runWrapped</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">switch</span> (runReason) &#123;</div><div class="line">   <span class="keyword">case</span> INITIALIZE:</div><div class="line">     stage = getNextStage(Stage.INITIALIZE);</div><div class="line">     currentGenerator = getNextGenerator();</div><div class="line">     runGenerators();</div><div class="line">     <span class="keyword">break</span>;</div><div class="line">   <span class="keyword">case</span> SWITCH_TO_SOURCE_SERVICE:</div><div class="line">     runGenerators();</div><div class="line">     <span class="keyword">break</span>;</div><div class="line">   <span class="keyword">case</span> DECODE_DATA:</div><div class="line">     decodeFromRetrievedData();</div><div class="line">     <span class="keyword">break</span>;</div><div class="line">   <span class="keyword">default</span>:</div><div class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Unrecognized run reason: "</span> + runReason);</div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> DataFetcherGenerator <span class="title">getNextGenerator</span><span class="params">()</span> </span>&#123;</div><div class="line"> <span class="keyword">switch</span> (stage) &#123;</div><div class="line">   <span class="keyword">case</span> RESOURCE_CACHE:</div><div class="line">     <span class="keyword">return</span> <span class="keyword">new</span> ResourceCacheGenerator(decodeHelper, <span class="keyword">this</span>);</div><div class="line">   <span class="keyword">case</span> DATA_CACHE:</div><div class="line">     <span class="keyword">return</span> <span class="keyword">new</span> DataCacheGenerator(decodeHelper, <span class="keyword">this</span>);</div><div class="line">   <span class="keyword">case</span> SOURCE:</div><div class="line">     <span class="keyword">return</span> <span class="keyword">new</span> SourceGenerator(decodeHelper, <span class="keyword">this</span>);</div><div class="line">   <span class="keyword">case</span> FINISHED:</div><div class="line">     <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">   <span class="keyword">default</span>:</div><div class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Unrecognized stage: "</span> + stage);</div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> Stage <span class="title">getNextStage</span><span class="params">(Stage current)</span> </span>&#123;</div><div class="line"> <span class="keyword">switch</span> (current) &#123;</div><div class="line">   <span class="keyword">case</span> INITIALIZE:</div><div class="line">     <span class="keyword">return</span> diskCacheStrategy.decodeCachedResource()</div><div class="line">         ? Stage.RESOURCE_CACHE : getNextStage(Stage.RESOURCE_CACHE);</div><div class="line">   <span class="keyword">case</span> RESOURCE_CACHE:</div><div class="line">     <span class="keyword">return</span> diskCacheStrategy.decodeCachedData()</div><div class="line">         ? Stage.DATA_CACHE : getNextStage(Stage.DATA_CACHE);</div><div class="line">   <span class="keyword">case</span> DATA_CACHE:</div><div class="line">     <span class="keyword">return</span> Stage.SOURCE;</div><div class="line">   <span class="keyword">case</span> SOURCE:</div><div class="line">   <span class="keyword">case</span> FINISHED:</div><div class="line">     <span class="keyword">return</span> Stage.FINISHED;</div><div class="line">   <span class="keyword">default</span>:</div><div class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Unrecognized stage: "</span> + current);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>主要加载逻辑就在这三个函数中了：</p>
+<ol>
+<li>先获取当前的Stage</li>
+<li>根据当前的Stage获取相应的Generator，</li>
+<li>执行Generator</li>
+</ol>
+<p>一共有三种Generator：</p>
+<ul>
+<li><code>ResourceCacheGenerator</code>：从处理过的缓存加载数据</li>
+<li><code>DataCacheGenerator</code>：从原始缓存加载数据</li>
+<li><code>SourceGenerator</code>：从数据源请求数据，如网络请求</li>
+</ul>
+<p>前面说过，Glide的磁盘缓存可以选择缓存原始图片，缓存处理过的图片（如列表中显示缩略图时缩放后的图片），这三个Generator就分别对应处理过的图片缓存，原始图片缓存，和数据源加载。</p>
+<p>在上面的第三步执行Generator时主要就是调用了Generator，其实就是执行Generator的<code>startNext</code>方法，这里以<code>SourceGenerator</code>为例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">startNext</span><span class="params">()</span> </span>&#123;</div><div class="line"> <span class="keyword">if</span> (dataToCache != <span class="keyword">null</span>) &#123;</div><div class="line">   Object data = dataToCache;</div><div class="line">   dataToCache = <span class="keyword">null</span>;</div><div class="line">   cacheData(data);</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="keyword">if</span> (sourceCacheGenerator != <span class="keyword">null</span> &amp;&amp; sourceCacheGenerator.startNext()) &#123;</div><div class="line">   <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"> &#125;</div><div class="line"> sourceCacheGenerator = <span class="keyword">null</span>;</div><div class="line"></div><div class="line"> loadData = <span class="keyword">null</span>;</div><div class="line"> <span class="keyword">boolean</span> started = <span class="keyword">false</span>;</div><div class="line"> <span class="keyword">while</span> (!started &amp;&amp; hasNextModelLoader()) &#123;</div><div class="line">   loadData = helper.getLoadData().get(loadDataListIndex++);</div><div class="line">   <span class="keyword">if</span> (loadData != <span class="keyword">null</span></div><div class="line">       &amp;&amp; (helper.getDiskCacheStrategy().isDataCacheable(loadData.fetcher.getDataSource())</div><div class="line">       || helper.hasLoadPath(loadData.fetcher.getDataClass()))) &#123;</div><div class="line">     started = <span class="keyword">true</span>;</div><div class="line">     loadData.fetcher.loadData(helper.getPriority(), <span class="keyword">this</span>);</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">return</span> started;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>先忽略函数开始时<code>dataToCache</code>和<code>sourceCacheGenerator</code>相关的代码，第一次加载时这两个一定是null的。剩下的流程就是获取一个<code>LoadData</code>，调用<code>LoadData.fetcher.loadData</code>加载数据。看一下<code>LoadData</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">List&lt;LoadData&lt;?&gt;&gt; getLoadData() &#123;</div><div class="line"> <span class="keyword">if</span> (!isLoadDataSet) &#123;</div><div class="line">   isLoadDataSet = <span class="keyword">true</span>;</div><div class="line">   loadData.clear();</div><div class="line">   List&lt;ModelLoader&lt;Object, ?&gt;&gt; modelLoaders = glideContext.getRegistry().getModelLoaders(model);</div><div class="line">   <span class="keyword">int</span> size = modelLoaders.size();</div><div class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">     ModelLoader&lt;Object, ?&gt; modelLoader = modelLoaders.get(i);</div><div class="line">     LoadData&lt;?&gt; current =</div><div class="line">         modelLoader.buildLoadData(model, width, height, options);</div><div class="line">     <span class="keyword">if</span> (current != <span class="keyword">null</span>) &#123;</div><div class="line">       loadData.add(current);</div><div class="line">     &#125;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">return</span> loadData;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在<code>getLoadData</code>中通过获取所有提前注册过的能处理<code>Model</code>类型的<code>ModelLoader</code>，调用它的<code>buildLoadData</code>生成<code>LoadData</code>，最终返回一个<code>LoadData</code>列表。</p>
+<p>前面说过<code>LoadData</code>包含了用来获取数据的<code>DataFetcher</code>。<code>SourceGenerator.startNext</code>就调用了<code>loadData.fetcher.loadData</code>来进行加载数据，并传进去一个Callback，就是当前的<code>SourceGenerator</code>，如果加载成功，会调用<code>onDataReady</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDataReady</span><span class="params">(Object data)</span> </span>&#123;</div><div class="line"> DiskCacheStrategy diskCacheStrategy = helper.getDiskCacheStrategy();</div><div class="line"> <span class="keyword">if</span> (data != <span class="keyword">null</span> &amp;&amp; diskCacheStrategy.isDataCacheable(loadData.fetcher.getDataSource())) &#123;</div><div class="line">   dataToCache = data;</div><div class="line">   <span class="comment">// We might be being called back on someone else's thread. Before doing anything, we should</span></div><div class="line">   <span class="comment">// reschedule to get back onto Glide's thread.</span></div><div class="line">   cb.reschedule();</div><div class="line"> &#125; <span class="keyword">else</span> &#123;</div><div class="line">   cb.onDataFetcherReady(loadData.sourceKey, data, loadData.fetcher,</div><div class="line">       loadData.fetcher.getDataSource(), originalKey);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>数据加载成功后，如果设置了要进行磁盘缓存，会设置成员变量<code>dataToCache</code>，并调用Callback的<code>reschedule</code>，结果就是会再次调用当前Generator的<code>startNext</code>，<code>startNext</code>的前半部分实现就起作用了，会进行写缓存的操作。</p>
+<p>当<code>rescheudle</code>后写了缓存后，或不缓存的情况下，会调用<code>onDataFetcherReady</code>，这个Callback就是前面的<code>DecodeJob</code>，在<code>onDataFetcherReady</code>中会调用<code>decodeFromRetrievedData</code> decode数据，最终调用到<code>decodeFromFetcher</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> &lt;Data&gt; <span class="function">Resource&lt;R&gt; <span class="title">decodeFromFetcher</span><span class="params">(Data data, DataSource dataSource)</span></span></div><div class="line">   <span class="keyword">throws</span> GlideException &#123;</div><div class="line"> LoadPath&lt;Data, ?, R&gt; path = decodeHelper.getLoadPath((Class&lt;Data&gt;) data.getClass());</div><div class="line"> <span class="keyword">return</span> runLoadPath(data, dataSource, path);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>获取<code>LoadPath</code>，并调用它的<code>load</code>方法。<code>LoadPath</code>就是封装了多个<code>DecodePath</code>，<code>DecodePath</code>用于decode and Transform数据，如InputStream-&gt;Bitmap-&gt;BitmapDrawable，<code>DecodePath</code>中会获取预先注册的<code>Decoder</code>来decode获取到的数据，decode成功后通过回调调用<code>DecodeJob</code>的<code>onResourceDecoded</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Resource&lt;Z&gt; <span class="title">onResourceDecoded</span><span class="params">(Resource&lt;Z&gt; decoded)</span> </span>&#123;</div><div class="line"> Class&lt;Z&gt; resourceSubClass = getResourceClass(decoded);</div><div class="line"> Transformation&lt;Z&gt; appliedTransformation = <span class="keyword">null</span>;</div><div class="line"> Resource&lt;Z&gt; transformed = decoded;</div><div class="line"> <span class="keyword">if</span> (dataSource != DataSource.RESOURCE_DISK_CACHE) &#123;</div><div class="line">   appliedTransformation = decodeHelper.getTransformation(resourceSubClass);</div><div class="line">   transformed = appliedTransformation.transform(decoded, width, height);        <span class="comment">//////////////////////////    1</span></div><div class="line"> &#125;</div><div class="line"> <span class="comment">// <span class="doctag">TODO:</span> Make this the responsibility of the Transformation.</span></div><div class="line"> <span class="keyword">if</span> (!decoded.equals(transformed)) &#123;</div><div class="line">   decoded.recycle();</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="keyword">final</span> EncodeStrategy encodeStrategy;</div><div class="line"> <span class="keyword">final</span> ResourceEncoder&lt;Z&gt; encoder;</div><div class="line"> <span class="keyword">if</span> (decodeHelper.isResourceEncoderAvailable(transformed)) &#123;</div><div class="line">   encoder = decodeHelper.getResultEncoder(transformed);</div><div class="line">   encodeStrategy = encoder.getEncodeStrategy(options);</div><div class="line"> &#125; <span class="keyword">else</span> &#123;</div><div class="line">   encoder = <span class="keyword">null</span>;</div><div class="line">   encodeStrategy = EncodeStrategy.NONE;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> Resource&lt;Z&gt; result = transformed;</div><div class="line"> <span class="keyword">boolean</span> isFromAlternateCacheKey = !decodeHelper.isSourceKey(currentSourceKey);</div><div class="line"> <span class="keyword">if</span> (diskCacheStrategy.isResourceCacheable(isFromAlternateCacheKey, dataSource,</div><div class="line">     encodeStrategy)) &#123;</div><div class="line">   <span class="keyword">if</span> (encoder == <span class="keyword">null</span>) &#123;</div><div class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> Registry.NoResultEncoderAvailableException(transformed.get().getClass());</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">final</span> Key key;</div><div class="line">   <span class="keyword">if</span> (encodeStrategy == EncodeStrategy.SOURCE) &#123;</div><div class="line">     key = <span class="keyword">new</span> DataCacheKey(currentSourceKey, signature);</div><div class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encodeStrategy == EncodeStrategy.TRANSFORMED) &#123;</div><div class="line">     key = <span class="keyword">new</span> ResourceCacheKey(currentSourceKey, signature, width, height,</div><div class="line">         appliedTransformation, resourceSubClass, options);</div><div class="line">   &#125; <span class="keyword">else</span> &#123;</div><div class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Unknown strategy: "</span> + encodeStrategy);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   LockedResource&lt;Z&gt; lockedResult = LockedResource.obtain(transformed);</div><div class="line">   deferredEncodeManager.init(key, encoder, lockedResult);           <span class="comment">//////////////////////////    2</span></div><div class="line">   result = lockedResult;</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在上述代码的注释1处对加载成功的资源应用Transformation，然后在注释2处根据缓存策略初始化<code>DeferredEncodeManager</code>，在前面的<code>decodeFromRetrievedData</code>中，如果有必要会把transform过的资源写缓存。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">decodeFromRetrievedData</span><span class="params">()</span> </span>&#123;</div><div class="line">  ...</div><div class="line"></div><div class="line"> <span class="keyword">if</span> (resource != <span class="keyword">null</span>) &#123;</div><div class="line">   notifyEncodeAndRelease(resource, currentDataSource);</div><div class="line"> &#125; <span class="keyword">else</span> &#123;</div><div class="line">   runGenerators();</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>notifyEncodeAndRelease</code>中处理了对处理过的图片的缓存操作。当缓存完成后（如果有需要的话）就通过回调告诉外面加载完成了。至此，整个加载过程完成。</p>
+<h1 id="Glide配置"><a href="#Glide配置" class="headerlink" title="Glide配置"></a>Glide配置</h1><p>Glide允许我们进行一定程度的自定义，比如设置自定义的Executor，设置缓存池，设置Log等级等，完成这个任务的类叫<code>GlideBuilder</code>，Glide类在工程中是作为单例使用的，看一下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Glide <span class="title">get</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line"> <span class="keyword">if</span> (glide == <span class="keyword">null</span>) &#123;</div><div class="line">   <span class="keyword">synchronized</span> (Glide.class) &#123;</div><div class="line">     <span class="keyword">if</span> (glide == <span class="keyword">null</span>) &#123;</div><div class="line">       Context applicationContext = context.getApplicationContext();</div><div class="line">       List&lt;GlideModule&gt; modules = <span class="keyword">new</span> ManifestParser(applicationContext).parse();</div><div class="line"></div><div class="line">       GlideBuilder builder = <span class="keyword">new</span> GlideBuilder(applicationContext);</div><div class="line">       <span class="keyword">for</span> (GlideModule <span class="keyword">module</span> : modules) &#123;</div><div class="line">         <span class="keyword">module</span>.applyOptions(applicationContext, builder);</div><div class="line">       &#125;</div><div class="line">       glide = builder.createGlide();</div><div class="line">       <span class="keyword">for</span> (GlideModule <span class="keyword">module</span> : modules) &#123;</div><div class="line">         <span class="keyword">module</span>.registerComponents(applicationContext, glide.registry);</div><div class="line">       &#125;</div><div class="line">     &#125;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="keyword">return</span> glide;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>GlideBuilder</code>生成了一个<code>Glide</code>实例，我们是没有办法直接配置<code>GlideBuilder</code>的，但我们发现<code>Glide.get</code>解析了Manifest，获取了一个<code>GlideModule</code>的列表，并调用了它的<code>applyOptions</code>和<code>registerComponents</code>方法。以项目中OkHttp的配置为例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OkHttpGlideModule</span> <span class="keyword">implements</span> <span class="title">GlideModule</span> </span>&#123;</div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</div><div class="line">   <span class="comment">// Do nothing.</span></div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Registry registry)</span> </span>&#123;</div><div class="line">   registry.replace(GlideUrl.class, InputStream.class, <span class="keyword">new</span> OkHttpUrlLoader.Factory());</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>GlideModule</code>有两个方法，<code>applyOptions</code>，有一个<code>GlideBuilder</code>参数，在这里我们就可以配置Glide了。还有一个<code>registerComponents</code>方法，并有一个<code>Registry</code>参数，通过这个类的实例我们就可以注册我们自定义的<code>ModelLoader</code>，<code>Encoder</code>等基础组件了。</p>
+<p>自定义<code>GlideModule</code>是通过Manifest的meta-data标签配置的</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">   <span class="attr">android:name</span>=<span class="string">"com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"</span></div><div class="line">   <span class="attr">android:value</span>=<span class="string">"GlideModule"</span>/&gt;</div></pre></td></tr></table></figure>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p> <a href="http://www.lightskystreet.com/2015/10/12/glide_source_analysis/" target="_blank" rel="external">http://www.lightskystreet.com/2015/10/12/glide_source_analysis/</a></p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2016/09/05/glide/">http://www.angeldevil.me/2016/09/05/glide/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/12/29/LinearLayout坑爹的showDividers属性/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          LinearLayout坑爹的showDividers属性
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2016/09/05/glide/" data-title="Glide源码导读" data-url="http://www.angeldevil.me/2016/09/05/glide/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android动态改变布局 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="通过RelativeLayout用代码动态改变布局">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android动态改变布局">
+<meta property="og:url" content="http://www.angeldevil.me/2014/07/10/dynamic-change-layout/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="通过RelativeLayout用代码动态改变布局">
+<meta property="og:image" content="http://www.angeldevil.me/2014/07/10/dynamic-change-layout/normal.png">
+<meta property="og:image" content="http://www.angeldevil.me/2014/07/10/dynamic-change-layout/keyboard.png">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android动态改变布局">
+<meta name="twitter:description" content="通过RelativeLayout用代码动态改变布局">
+<meta name="twitter:image" content="http://www.angeldevil.me/2014/07/10/dynamic-change-layout/normal.png">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-dynamic-change-layout" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/07/10/dynamic-change-layout/" class="article-date">
+  	<time datetime="2014-07-10T08:39:24.000Z" itemprop="datePublished">7月 10 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android动态改变布局
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>遇到这么个需求，先看图：</p>
+<p><img src="normal.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;<img src="keyboard.png" alt=""></p>
+<p>其实是一个软件的登录界面，初始是第一个图的样子，当软键盘弹出后变为第二个图的样子，因为登录界面有用户名、密码、登录按钮，不这样的话软键盘弹出后会遮住登录按钮（其实之前的实现放到了ScrollView里面，监听软键盘弹出后滚动到底部，软键盘隐藏后滚动到顶部，也是可以的）。</p>
+<p>最简单的方法就是多加几个冗余的View，根据软键盘的状态隐藏不需要的View，显示需要的View，但这样感觉太挫了，然后就想起了前两年研究的RelativeLayout布局，RelativeLayout中子控件的布局都是相对位置，只需要在软键盘弹出隐藏时改变应用的位置规则就行了。</p>
+<p>先来看一下布局文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/root"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:padding</span>=<span class="string">"20dp"</span></div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"$&#123;packageName&#125;.$&#123;activityClass&#125;"</span> &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">RelativeLayout</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/container"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_alignParentTop</span>=<span class="string">"true"</span> &gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/logo"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></div><div class="line">            <span class="attr">android:layout_centerHorizontal</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:scaleType</span>=<span class="string">"centerCrop"</span></div><div class="line">            <span class="attr">android:src</span>=<span class="string">"@drawable/ic_launcher"</span></div><div class="line">            <span class="attr">tools:ignore</span>=<span class="string">"ContentDescription"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/label"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_below</span>=<span class="string">"@id/logo"</span></div><div class="line">            <span class="attr">android:layout_centerHorizontal</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span></div><div class="line">            <span class="attr">android:layout_marginTop</span>=<span class="string">"10dp"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"@string/hello_world"</span></div><div class="line">            <span class="attr">android:textSize</span>=<span class="string">"20sp"</span> /&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">EditText</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/input"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/container"</span></div><div class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"16dp"</span></div><div class="line">        <span class="attr">android:hint</span>=<span class="string">"Input sth."</span></div><div class="line">        <span class="attr">tools:ignore</span>=<span class="string">"HardcodedText"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>软键盘的弹出隐藏用<code>OnGlobalLayoutListener</code>监听实现，对Activity应用<code>android:windowSoftInputMode=&quot;stateHidden|adjustResize&quot;</code>，这样开始时软键盘不显示，当软键盘弹出时布局被Resize。</p>
+<p>接下来是代码，所有的代码都在这里了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> View root; <span class="comment">// 最外层布局</span></div><div class="line">    <span class="keyword">private</span> View logo; <span class="comment">// Logo图标</span></div><div class="line">    <span class="keyword">private</span> View label; <span class="comment">// Logo附近的文字</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> rootBottom = Integer.MIN_VALUE;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        root = findViewById(R.id.root);</div><div class="line">        logo = findViewById(R.id.logo);</div><div class="line">        label = findViewById(R.id.label);</div><div class="line">        root.getViewTreeObserver().addOnGlobalLayoutListener(<span class="keyword">new</span> OnGlobalLayoutListener() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</div><div class="line">                Rect r = <span class="keyword">new</span> Rect();</div><div class="line">                root.getGlobalVisibleRect(r);</div><div class="line">                <span class="comment">// 进入Activity时会布局，第一次调用onGlobalLayout，先记录开始软键盘没有弹出时底部的位置</span></div><div class="line">                <span class="keyword">if</span> (rootBottom == Integer.MIN_VALUE) &#123;</div><div class="line">                    rootBottom = r.bottom;</div><div class="line">                    <span class="keyword">return</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// adjustResize，软键盘弹出后高度会变小</span></div><div class="line">                <span class="keyword">if</span> (r.bottom &lt; rootBottom) &#123;</div><div class="line">                    RelativeLayout.LayoutParams lp = (LayoutParams) logo.getLayoutParams();</div><div class="line">                    <span class="comment">// 如果Logo不是水平居中，说明是因为接下来的改变Logo大小位置导致的再次布局，忽略掉，否则无限循环</span></div><div class="line">                    <span class="keyword">if</span> (lp.getRules()[RelativeLayout.CENTER_HORIZONTAL] != <span class="number">0</span>) &#123;</div><div class="line">                        <span class="comment">// Logo显示到左上角</span></div><div class="line">                        lp.addRule(RelativeLayout.CENTER_HORIZONTAL, <span class="number">0</span>); <span class="comment">// 取消水平居中</span></div><div class="line">                        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT); <span class="comment">// 左对齐</span></div><div class="line"></div><div class="line">                        <span class="comment">// 缩小Logo为1/2</span></div><div class="line">                        <span class="keyword">int</span> height = logo.getHeight(); <span class="comment">// getMeasuredHeight()</span></div><div class="line">                        <span class="keyword">int</span> width = logo.getWidth();</div><div class="line">                        lp.width = width / <span class="number">2</span>;</div><div class="line">                        lp.height = height / <span class="number">2</span>;</div><div class="line">                        logo.setLayoutParams(lp);</div><div class="line"></div><div class="line">                        <span class="comment">// Logo下的文字</span></div><div class="line">                        RelativeLayout.LayoutParams labelParams = (LayoutParams) label.getLayoutParams();</div><div class="line">                        labelParams.addRule(RelativeLayout.CENTER_HORIZONTAL, <span class="number">0</span>); <span class="comment">// 取消水平居中</span></div><div class="line">                        labelParams.addRule(RelativeLayout.BELOW, <span class="number">0</span>); <span class="comment">// 取消显示到logo的下方</span></div><div class="line">                        labelParams.addRule(RelativeLayout.RIGHT_OF, R.id.logo); <span class="comment">// 显示到Logo的右方</span></div><div class="line">                        labelParams.addRule(RelativeLayout.CENTER_VERTICAL); <span class="comment">// 垂直居中</span></div><div class="line">                        label.setLayoutParams(labelParams);</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">else</span> &#123; <span class="comment">// 软键盘收起或初始化时</span></div><div class="line">                    RelativeLayout.LayoutParams lp = (LayoutParams) logo.getLayoutParams();</div><div class="line">                    <span class="comment">// 如果没有水平居中，说明是软键盘收起，否则是开始时的初始化或者因为此处if条件里的语句修改控件导致的再次布局，忽略掉，否则无限循环</span></div><div class="line">                    <span class="keyword">if</span> (lp.getRules()[RelativeLayout.CENTER_HORIZONTAL] == <span class="number">0</span>) &#123;</div><div class="line">                        <span class="comment">// 居中Logo</span></div><div class="line">                        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);</div><div class="line">                        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, <span class="number">0</span>);</div><div class="line"></div><div class="line">                        <span class="comment">// 还原Logo为原来大小</span></div><div class="line">                        <span class="keyword">int</span> height = logo.getHeight();</div><div class="line">                        <span class="keyword">int</span> width = logo.getWidth();</div><div class="line">                        lp.width = width * <span class="number">2</span>;</div><div class="line">                        lp.height = height * <span class="number">2</span>;</div><div class="line">                        logo.setLayoutParams(lp);</div><div class="line"></div><div class="line">                        <span class="comment">// Logo下的文字</span></div><div class="line">                        RelativeLayout.LayoutParams labelParams = (LayoutParams) label.getLayoutParams();</div><div class="line">                        labelParams.addRule(RelativeLayout.CENTER_HORIZONTAL); <span class="comment">// 设置水平居中</span></div><div class="line">                        labelParams.addRule(RelativeLayout.BELOW, R.id.logo); <span class="comment">// 设置显示到Logo下面</span></div><div class="line">                        labelParams.addRule(RelativeLayout.RIGHT_OF, <span class="number">0</span>); <span class="comment">// 取消显示到Logo右面</span></div><div class="line">                        labelParams.addRule(RelativeLayout.CENTER_VERTICAL, <span class="number">0</span>); <span class="comment">// 取消垂直居中</span></div><div class="line">                        label.setLayoutParams(labelParams);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当Activity启动时也会进行Layout，此时用<code>rootBottom</code>记录了初始时最外层布局底部的位置，此后当软键盘弹出时，布局被压缩，再次获取同一个View底部的位置，如果比<code>rootBottom</code>小说明软键盘弹出了，如果大于或等于<code>rootBottom</code>说明软键盘隐藏了。</p>
+<p>所有的代码都在上面，也有详细注释，有两点需要注意一下：</p>
+<ol>
+<li>Activity启动时会进行Layout，此时会调用<code>onGlobalLayout</code>，而且一般会调用两次，这样第二次时会进入else语句，要注意过滤</li>
+<li>软键盘弹出或隐藏时进入<code>onGlobalLayout</code>，此时根据需要缩放Logo的大小，并改变Logo和Label的位置，这些操作会引起再次<code>onGlobalLayout</code>，需要将之后的<code>onGlobalLayout</code>过滤掉，不然就无限循环了。</li>
+</ol>
+<p>可以看到上面代码中的过滤条件，以else语句中的为例，Activity启动时会进入else，此时Logo是水平居中状态，会跳过else里面的if语句，这样就处理掉了第一种情况。</p>
+<p>当因为软键盘收起进入else时，Logo已经因为if语句块变为了显示在左上角，所以会进入else中的if语句，重新改变Logo为水平居中，由于修改了Logo的大小和位置，会导致再次进入<code>onGlobalLayout</code>，仍是进入else，但此时已经设置Logo为水平居中了，不会再次进入else中的if语句，这样通过一个条件判断就处理了上面提到的两点注意事项。</p>
+<p><strong>关于addRule</strong></p>
+<p>RelativeLayout中每一个子控件所应用的规则都是通过数组保存的，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TRUE = -<span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addRule</span><span class="params">(<span class="keyword">int</span> verb)</span> </span>&#123;</div><div class="line">    mRules[verb] = TRUE;</div><div class="line">    mInitialRules[verb] = TRUE;</div><div class="line">    mRulesChanged = <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addRule</span><span class="params">(<span class="keyword">int</span> verb, <span class="keyword">int</span> anchor)</span> </span>&#123;</div><div class="line">    mRules[verb] = anchor;</div><div class="line">    mInitialRules[verb] = anchor;</div><div class="line">    mRulesChanged = <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以某一规则的索引为下标，值就是规则对应的anchor，如果是相对于另一个子控件，值就是另一个子控件的ID，如果是相对于父控件，值就是<code>TRUE</code>，即-1，如果没有应用某一规则值就是0，可以看到，<code>removeRule</code>就是把相应位置的值改为了0：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeRule</span><span class="params">(<span class="keyword">int</span> verb)</span> </span>&#123;</div><div class="line">    mRules[verb] = <span class="number">0</span>;</div><div class="line">    mInitialRules[verb] = <span class="number">0</span>;</div><div class="line">    mRulesChanged = <span class="keyword">true</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p><code>removeRule</code>是<code>API 17</code>才加的方法，为了在<code>API 17</code>前也能使用，可以使用它的等价方法，像上面的例子中的一样，使用<code>addRule(verb, 0)</code>。</p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/07/10/dynamic-change-layout/">http://www.angeldevil.me/2014/07/10/dynamic-change-layout/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/07/03/PackageManagerService/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          PackageManagerService
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/07/10/influence/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">《影响力》</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/07/10/dynamic-change-layout/" data-title="Android动态改变布局" data-url="http://www.angeldevil.me/2014/07/10/dynamic-change-layout/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

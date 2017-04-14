@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>与Status Bar和Navigation Bar相关的一些东西 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="全屏、LOW_PROFILE Mode，LEAN_BACK Mode，Immersive Mode，fitSystemWindows相关。">
+<meta name="keywords" content="Android,Status Bar,Navigation Bar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="与Status Bar和Navigation Bar相关的一些东西">
+<meta property="og:url" content="http://www.angeldevil.me/2014/09/02/About-Status-Bar-and-Navigation-Bar/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="全屏、LOW_PROFILE Mode，LEAN_BACK Mode，Immersive Mode，fitSystemWindows相关。">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="与Status Bar和Navigation Bar相关的一些东西">
+<meta name="twitter:description" content="全屏、LOW_PROFILE Mode，LEAN_BACK Mode，Immersive Mode，fitSystemWindows相关。">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-About-Status-Bar-and-Navigation-Bar" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/02/About-Status-Bar-and-Navigation-Bar/" class="article-date">
+  	<time datetime="2014-09-02T07:16:59.000Z" itemprop="datePublished">9月 2 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      与Status Bar和Navigation Bar相关的一些东西
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Navigation-Bar/">Navigation Bar</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Status-Bar/">Status Bar</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>与StatusBar和NavigationBar相关的东西有两种，一是控制它们的显示与隐藏，二是控制它们的透明与否及背景。</p>
+<a id="more"></a>
+<p>在2.3及以前，StatusBar只能显示与隐藏，即全屏模式，通过<code>WindowManager.LayoutParams.FLAG_FULLSCREEN</code>来实现：</p>
+<pre><code>getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+</code></pre><p>并可通过以下Flag使Activity的布局可以使用整个屏幕，状态栏会显示到Activity上方并遮盖部分布局</p>
+<pre><code>getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+            | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+</code></pre><p>在3.0(API 11)中，添加了一个重要的方法：<code>setSystemUiVisibility(int)</code>，用于控制包括Status Bar在内的一些窗口装饰元素的显示，并添加了<code>View.STATUS_BAR_VISIBLE</code>和<code>View.STATUS_BAR_HIDDEN</code>两个Flag用于控制Status Bar的显示与隐藏，但在4.0(API 14)中废弃了。</p>
+<p>在4.0(API 14)中，Andorid引入了Navigation Bar，并添加了一个Flag：<code>SYSTEM_UI_FLAG_HIDDEN_NAVIGATION</code>用于控制Navigatoin Bar的显示。3.0中被弃用的<code>View.STATUS_BAR_VISIBLE</code>被<code>View.SYSTEM_UI_VISIBLE</code>替代，<code>View.STATUS_BAR_HIDDEN</code>被<code>View.SYSTEM_UI_LOW_PROFILE</code>替代，<code>View.SYSTEM_UI_LOW_PROFILE</code>不会使Status Bar和Navigation Bar消失，而是会使它们变暗，降低它们对视觉的干扰，使用户可以专注于应用的内容，但仍可响应用户的交互，当和它们的交互发生时，会退出Low Profile的状态。</p>
+<p>在4.1(API 16)中，对Status Bar和Navigation Bar的控制进一步增强，引入了<code>View.SYSTEM_UI_FLAG_FULLSCREEN</code>，和<code>View.SYSTEM_UI_HIDDEN_NAVIGATION</code>分别控制Status Bar和Navigation Bar的显示。并同时引入了另外三个Flag：<code>View.SYSTEM_UI_FLAG_LAYOUT_STABLE</code>、<code>View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</code>和<code>View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</code>。</p>
+<p>显示System UI：</p>
+<pre><code>getWindow().getDecorView().setSystemUiVisibility(
+        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+</code></pre><p>隐藏System UI</p>
+<pre><code>getWindow().getDecorView().setSystemUiVisibility(
+          View.SYSTEM_UI_FLAG_FULLSCREEN
+        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        | View.SYSTEM_UI_FLAG_IMMERSIVE
+        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+</code></pre><p>通过上面那段<code>View.SYSTEM_UI_FLAG_FULLSCREEN</code>、<code>View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</code>相关的代码实现的全屏模式，可以隐藏掉Status Bar和Navigation Bar，但是这些都是很重要的功能，尤其是Navigation Bar，对于只有虚拟按键的手机，如果隐藏掉Navigation Bar，连切换程序都做不到，所以，当用户和手机有任何交互的时候都会重新显示Status Bar和Navigation Bar，这被称为<strong>LEAN BACK</strong>模式。这很适合视频播放的场景，但对于其他一些场景可能就不适合了，比如读书。</p>
+<p>所以，在4.4(API 19)中引入了沉浸模式<code>View.SYSTEM_UI_FLAG_IMMERSIVE</code>和<code>View.SYSTEM_UI_FLAG_IMMERSIVE_STICK</code>。在IMMERSIVE模式中，用户的普通交互并不会使系统退出IMMERSIVE模式，如果要退出IMMERSIVE模式，需要在屏幕的顶部或底部向内滑动。这可以使用户专注于内容，但退出方式并不像LEAN BACK模式那么明显，所以在第一次进入IMMERSIVE时，系统会弹出一个UI提醒退出的方法。<code>SYSTEM_UI_FLAG_IMMERSIVE</code>等需要和<code>SYSTEM_UI_FLAG_FULLSCREEN</code>、<code>SYSTEM_UI_FLAG_HIDE_NAVIGATION</code>一起使用。</p>
+<p>IMMERSIVE_STICKY和IMMERSIVE的区别是，在IMMERSIVE中，用户从屏幕顶部或底部向内滑动时会退出IMMERSIVE模式，需要手动控制再次进入IMMERSIVE模式，而在IMMERSIVE_STICKY模式中，同样的操作只会使系统以半透明方法显示System UI方便用户操作，并会在一段时间后自动隐藏，此时并不会引起<code>onSystemUiVibilityChanged</code>的调用。</p>
+<p>可以看到，关于全屏，关于System UI的控制，如果想有好的体验，还是有很多细节需要处理的，不过幸好，chrisbanes大神写了一个类来处理这些细节：<a href="https://gist.github.com/chrisbanes/73de18faffca571f7292" target="_blank" rel="external">https://gist.github.com/chrisbanes/73de18faffca571f7292</a></p>
+<p>除了控制System UI的显示和隐藏外，还可以使它们变成透明的，在4.4(API 19)中还引入了<code>WindowManager.LayoutParams.FLAG_TRANSUCENT_STATUS</code>和<code>WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION</code>用于控制System UI变透明，这两个Flag分别对应于<code>windowTranslucentStatus</code>和<code>windowTranslucentNavigation</code>两个attr，并同时提供了相应的Theme（这些Theme都没有ActionBar），当使用这两个Flag时，<code>SYSTEM_UI_FLAG_LAYOUT_STABLE</code>、<code>SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</code>和<code>SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</code>会被自动添加。</p>
+<p>当System UI变透明后，Activity的UI占据整个屏幕，System UI覆盖在Activity的UI上面，对于一般的应用，虽然System UI透明了，但会发现效果并没有那么好，因为ActionBar还是在Status Bar下面，Status Bar变为透明后会透出Activity的UI，一般情况下这部分UI和ActionBar放到一起并不是那么协调。可以设置窗口的背景和ActionBar的色调一致，但会引起OverDraw，并且如果指定的布局撑不满全屏呢？</p>
+<p>我们知道，Activity顶部的布局是DecorView，而DecorView继承自FrameLayout，所以可以添加两个View到DecorView中，占据Status Bar和Navigation Bar的位置，并设置它们的背景使其与ActionBar相配，但这需要计算Status Bar和Navigation Bar的大小，并且需要判断Navigation Bar的位置（Bottom or Right）。正好，也有人做了这样的事：<a href="https://github.com/jgilfelt/SystemBarTint" target="_blank" rel="external">https://github.com/jgilfelt/SystemBarTint</a></p>
+<p>无论是LEAN_BACK模式还是IMMERSIVE模式，都使用到了4.1中引入的三个Flag：<code>SYSTEM_UI_FLAG_LAYOUT_STABLE</code>、<code>SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</code>和<code>SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</code>，它们的用处并不像<code>SYSTEM_UI_FLAG_FULLSCREEN</code>那么明显，而且名称还很相似，要了解它们的用处，需要先了解一个内容边衬区的概念（ContentInset）及一个重要的函数<code>View.fitSystemWindows</code>。</p>
+<p>默认情况下，应用程序窗口在Status Bar下面，系统已经处理好了应用窗口的显示，我们不需要关心Inset和fitSystemWindow，但有一些情况就要我们自己处理了。</p>
+<p>当使用了Translucent System UI或SYSTEM_UI_FLAG_FULLSCREEN等时，Activity的UI可以显示到System UI下面，System UI在显示时可能会盖住Activity的UI，所以可能需要处理这样的情况，这就需要知道System UI会占用的空间大小是多少，这个大小就是内容边初区（ContentInset），系统会通过<code>fitSystemWindows(Rect)</code>来通知我们，我们可以通过这个方法调整我们的内容显示。</p>
+<p>还有一个方法是<code>View.setFitSystemWindows(boolean)</code>，用于设置是否使用系统默认的<code>fitSystemWindows</code>实现。系统的默认实现会消耗掉内容边衬区空间的占用，算到View的Padding里面，并返回true，否则什么也不做返回false，当返回false时，会继续调用View Hierarchy中其他View的<code>fitSystemWindows</code>，直到某一个View中返回true，调用顺序是深度优先。如果我们决定自己处理System UI的空间占用，可以重写VIew的<code>fitSystemWIndows</code>并返回true，如果自己只是做些处理，仍想调用系统的默认实现，要记得调用<code>super.fitSystemWindows</code>并返回false。</p>
+<p>接下来就可以说<code>SYSTEM_UI_FLAG_LAYOUT_STABLE</code>等的作用了。在使用<code>View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</code>时，Status Bar和Navigation Bar都会隐藏，Activity的UI占据整个屏幕，当System UI再次显示时，应用程序窗口会被Resize，为System UI腾出空间，这会引起屏幕的跳动，这三个Flag的作用就在于此，<code>SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</code>和<code>SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</code>要和<code>SYSTEM_UI_FLAG_LAYOUT_STABLE</code>一起使用，用于控制当Status Bar或Navigation Bar显示或隐藏时，Activity的UI是否会被Resize，当使用这三个Flag时，Activity会占用整个屏幕空间，并通过<code>fitSystemWindows</code>传入的Insets标明Insets的大小（对于<code>SYSTEM_UI_FLAG_FULLSCREEN</code>会同时包含ActionBar的大小），我们可以根据这个Insets的大小调整内容的显示，如果给ContentView设置fitSystemWindows为true，会自动把Iinset转化为padding。</p>
+<p>有几点需要注意的是：</p>
+<ol>
+<li>当调用<code>fitSystemWindows</code>时是深度优先遍历</li>
+<li><code>setSystemUiVibility</code>是View中定义的方法，所以我们可以用Activity布局中任意一个View控制System UI，只要这个View不是Gone状态，系统会组合所有可见View的设置，所以一般情况下会直接对DecorView进行设置。</li>
+<li>当切换程序时，系统会清除<code>SYSTEM_UI_FLAG_FULLSCREEN</code>等Flag，所以需要通过<code>setSystemUiVisibilityListener</code>、<code>onWindowFocudChanged</code>等方法控制应用的状态。</li>
+<li>魅族MX2，Flyme 3.5系统，Android 4.4.4，Immersive模式无法退出，不过这个机型有实体按键，所以影响不大，无法从顶部下拉或底部滑动退出全屏，因为Flyme系统本身就支持在全屏时拉出状态栏或调出任务切换，系统设置中也可以关闭这个功能。</li>
+</ol>
+<p>参考：<a href="https://www.youtube.com/watch?v=cBi8fjv90E4&amp;feature=youtu.be" target="_blank" rel="external">https://www.youtube.com/watch?v=cBi8fjv90E4&amp;feature=youtu.be</a></p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/09/02/About-Status-Bar-and-Navigation-Bar/">http://www.angeldevil.me/2014/09/02/About-Status-Bar-and-Navigation-Bar/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/08/27/Long-click-about-Clickable(URLSpan)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          ClickableSpan(URLSpan)的长按处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/23/Android-Secret-Code/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Secret Code</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/09/02/About-Status-Bar-and-Navigation-Bar/" data-title="与Status Bar和Navigation Bar相关的一些东西" data-url="http://www.angeldevil.me/2014/09/02/About-Status-Bar-and-Navigation-Bar/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

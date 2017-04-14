@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>RecyclerView smoothScrollToPosition的滚动时间 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当RecyclerView中的数据集很大时，通过smoothScrollToPosition去滚动到一个位置，如果这个位置和当前位置相差很远，比如说300项，你会发现整个过程很长，比如说我遇到的，滚动300项，用了3.5秒。">
+<meta name="keywords" content="Android,RecyclerView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RecyclerView smoothScrollToPosition的滚动时间">
+<meta property="og:url" content="http://www.angeldevil.me/2015/09/08/The-smoothScrollToPosition-duration-of-RecyclerView/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="当RecyclerView中的数据集很大时，通过smoothScrollToPosition去滚动到一个位置，如果这个位置和当前位置相差很远，比如说300项，你会发现整个过程很长，比如说我遇到的，滚动300项，用了3.5秒。">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RecyclerView smoothScrollToPosition的滚动时间">
+<meta name="twitter:description" content="当RecyclerView中的数据集很大时，通过smoothScrollToPosition去滚动到一个位置，如果这个位置和当前位置相差很远，比如说300项，你会发现整个过程很长，比如说我遇到的，滚动300项，用了3.5秒。">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-The-smoothScrollToPosition-duration-of-RecyclerView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/08/The-smoothScrollToPosition-duration-of-RecyclerView/" class="article-date">
+  	<time datetime="2015-09-08T12:46:54.000Z" itemprop="datePublished">9月 8 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RecyclerView smoothScrollToPosition的滚动时间
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RecyclerView/">RecyclerView</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当RecyclerView中的数据集很大时，通过<code>smoothScrollToPosition</code>去滚动到一个位置，如果这个位置和当前位置相差很远，比如说300项，你会发现整个过程很长，比如说我遇到的，滚动300项，用了3.5秒。</p>
+<a id="more"></a>
+<p>这主要跟RecyclerView smoothScroll的方式有关，它内部有一个常量值代表每滚动1px需要多少时间，所以滚动的距离越远，需要的时间越长。所以当真的需要滚动很多项时，有时看着真心蛋疼，所以就想看看怎么改一下。</p>
+<p>看下<code>LinearLayoutmanager.smoothScrollToPosition</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">smoothScrollToPosition</span><span class="params">(RecyclerView recyclerView, RecyclerView.State state,</span></span></div><div class="line">        <span class="keyword">int</span> position) &#123;</div><div class="line">    LinearSmoothScroller linearSmoothScroller =</div><div class="line">            <span class="keyword">new</span> LinearSmoothScroller(recyclerView.getContext()) &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> PointF <span class="title">computeScrollVectorForPosition</span><span class="params">(<span class="keyword">int</span> targetPosition)</span> </span>&#123;</div><div class="line">                    <span class="keyword">return</span> LinearLayoutManager.<span class="keyword">this</span></div><div class="line">                            .computeScrollVectorForPosition(targetPosition);</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line">    linearSmoothScroller.setTargetPosition(position);</div><div class="line">    startSmoothScroll(linearSmoothScroller);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>内部是实例化了一个LinearSmoothScroller的实例来处理Scroll事件的，我们自字义一个LinearSmoothScroller应该就能自定义Smooth事件，上面的<code>computeScrollVectorForPosition</code>方法不用管，直接复制过来就行了，因为<code>LinearSmoothScroller</code>是抽象类，这个方法必须实现。</p>
+<p>然后看下<code>LinearSmoothScroller</code> 的方法，发现一个方法叫<code>protected int calculateTimeForScrolling(int dx)</code>，看这名字就知道函数的作用了，直接重写这个函数，让它最多返回1500：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">calculateTimeForScrolling</span><span class="params">(<span class="keyword">int</span> dx)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> Math.min(<span class="number">1500</span>, <span class="keyword">super</span>.calculateTimeForScrolling(dx));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是，实际滚动时间更长了。。打Log，把每次返回值和dx的值都打印出来，然后继续测试，然后发现这个函数不是计算这一个<code>smoothScrollToPosition</code>需要的时间的，实际情况时，当实际需要滚动的距离大于10000时，滚动会分多次进行，比如说滚动52000距离，实际会这个函数会调用6次，dx的值前5次是10000，最后一次是2000。实际滚动时间是这6次返回值的和。</p>
+<p>知道了这个，解决也简单了，它想分多次调用就让它多次调用吧，我只要每次返回的时间值很小就行了。方法有两个。</p>
+<ul>
+<li>直接修改返回值，让它足够小</li>
+<li>修改传入的参数，当dx足够小时，计算出的时间自然就小了。</li>
+</ul>
+<p>我决定采用第二种方法，当滚动距离比较小时不会造成影响，完整代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">mLayoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>, LinearLayoutManager.VERTICAL, <span class="keyword">false</span>) &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">smoothScrollToPosition</span><span class="params">(RecyclerView recyclerView, RecyclerView.State state, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        LinearSmoothScroller linearSmoothScroller =</div><div class="line">                <span class="keyword">new</span> LinearSmoothScroller(recyclerView.getContext()) &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">calculateTimeForScrolling</span><span class="params">(<span class="keyword">int</span> dx)</span> </span>&#123;</div><div class="line">                        <span class="comment">// 此函数计算滚动dx的距离需要多久，当要滚动的距离很大时，比如说52000，</span></div><div class="line">                        <span class="comment">// 经测试，系统会多次调用此函数，每10000距离调一次，所以总的滚动时间</span></div><div class="line">                        <span class="comment">// 是多次调用此函数返回的时间的和，所以修改每次调用该函数时返回的时间的</span></div><div class="line">                        <span class="comment">// 大小就可以影响滚动需要的总时间，可以直接修改些函数的返回值，也可以修改</span></div><div class="line">                        <span class="comment">// dx的值，这里暂定使用后者.</span></div><div class="line">                        <span class="comment">// (See LinearSmoothScroller.TARGET_SEEK_SCROLL_DISTANCE_PX)</span></div><div class="line">                        <span class="keyword">if</span> (dx &gt; <span class="number">3000</span>) &#123;</div><div class="line">                            dx = <span class="number">3000</span>;</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">super</span>.calculateTimeForScrolling(dx);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> PointF <span class="title">computeScrollVectorForPosition</span><span class="params">(<span class="keyword">int</span> targetPosition)</span> </span>&#123;</div><div class="line">                        <span class="keyword">return</span> mLayoutManager.computeScrollVectorForPosition(targetPosition);</div><div class="line">                    &#125;</div><div class="line">                &#125;;</div><div class="line">        linearSmoothScroller.setTargetPosition(position);</div><div class="line">        startSmoothScroll(linearSmoothScroller);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2015/09/08/The-smoothScrollToPosition-duration-of-RecyclerView/">http://www.angeldevil.me/2015/09/08/The-smoothScrollToPosition-duration-of-RecyclerView/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/09/08/Two-problems-about-LinkMovementMethod-and-URLSPan/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          LinkMovementMethod与URLSpan相关的两个问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/29/LinearLayout坑爹的showDividers属性/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LinearLayout坑爹的showDividers属性</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015/09/08/The-smoothScrollToPosition-duration-of-RecyclerView/" data-title="RecyclerView smoothScrollToPosition的滚动时间" data-url="http://www.angeldevil.me/2015/09/08/The-smoothScrollToPosition-duration-of-RecyclerView/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>圆角图片，可以指定特定的角为圆角 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="关于圆角图片的实现，网上应该有很多例子，主要就是使用BitmapShader，比如Universal-Image-Loader中的RoundedBitmapDisplayer，本文中的实现都是基于这个RoundedBitmapDisplayer。">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="圆角图片，可以指定特定的角为圆角">
+<meta property="og:url" content="http://www.angeldevil.me/2014/12/29/rounded-image/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="关于圆角图片的实现，网上应该有很多例子，主要就是使用BitmapShader，比如Universal-Image-Loader中的RoundedBitmapDisplayer，本文中的实现都是基于这个RoundedBitmapDisplayer。">
+<meta property="og:image" content="http://www.angeldevil.me/2014/12/29/rounded-image/left.png">
+<meta property="og:image" content="http://www.angeldevil.me/2014/12/29/rounded-image/tl_br.png">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="圆角图片，可以指定特定的角为圆角">
+<meta name="twitter:description" content="关于圆角图片的实现，网上应该有很多例子，主要就是使用BitmapShader，比如Universal-Image-Loader中的RoundedBitmapDisplayer，本文中的实现都是基于这个RoundedBitmapDisplayer。">
+<meta name="twitter:image" content="http://www.angeldevil.me/2014/12/29/rounded-image/left.png">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-rounded-image" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/29/rounded-image/" class="article-date">
+  	<time datetime="2014-12-29T05:00:38.000Z" itemprop="datePublished">12月 29 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      圆角图片，可以指定特定的角为圆角
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于圆角图片的实现，网上应该有很多例子，主要就是使用BitmapShader，比如<a href="https://github.com/nostra13/Android-Universal-Image-Loader/blob/master/library%2Fsrc%2Fcom%2Fnostra13%2Funiversalimageloader%2Fcore%2Fdisplay%2FRoundedBitmapDisplayer.java" target="_blank" rel="external">Universal-Image-Loader中的RoundedBitmapDisplayer</a>，本文中的实现都是基于这个<a href="https://github.com/nostra13/Android-Universal-Image-Loader/blob/master/library%2Fsrc%2Fcom%2Fnostra13%2Funiversalimageloader%2Fcore%2Fdisplay%2FRoundedBitmapDisplayer.java" target="_blank" rel="external">RoundedBitmapDisplayer</a>。</p>
+<a id="more"></a>
+<p><a href="https://github.com/nostra13/Android-Universal-Image-Loader/blob/master/library%2Fsrc%2Fcom%2Fnostra13%2Funiversalimageloader%2Fcore%2Fdisplay%2FRoundedBitmapDisplayer.java" target="_blank" rel="external">RoundedBItmapDisplayer</a>通过我们指定的Bitmap生成了一个BitmapShader并与Paint关联，在draw里面使用这个Paint进行drawRoundRect，drawRoundRect是Canvas的API，用于画一个圆角距形，但如果我们不想让4个角都是圆角呢，比如只想要左边的两个角是圆角？</p>
+<p>开始我是这么想的，调用drawRoundRect时指定的Rect的宽度超出View宽度cornerRadius大小，这样右边两个圆角超出了View的区域就不会被显示出来，就只有左边两个角是圆角了，像下面这样（所有的修改基于<a href="https://github.com/nostra13/Android-Universal-Image-Loader/blob/master/library%2Fsrc%2Fcom%2Fnostra13%2Funiversalimageloader%2Fcore%2Fdisplay%2FRoundedBitmapDisplayer.java" target="_blank" rel="external">RoundedBitmapDisplayer</a>）:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">RoundedDrawable</span><span class="params">(Bitmap bitmap, <span class="keyword">int</span> cornerRadius)</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    mBitmapRect = <span class="keyword">new</span> RectF(<span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth() + cornerRadius, bitmap.getHeight());</div><div class="line">   ...</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onBoundsChange</span><span class="params">(Rect bounds)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onBoundsChange(bounds);</div><div class="line">    mRect.set(<span class="number">0</span>, <span class="number">0</span>, bounds.width() + cornerRadius, bounds.height());</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但这样图片应该会变形或被截断什么的，并且如果我只想要左上角和右下角是圆角呢？</p>
+<p>然后就想到了接下来的方法，先像原来一样画一个圆角距形的图片，再把不需要圆角的角画出来，这样就只有指定的角是圆角了，完整代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoundedImageView</span> <span class="keyword">extends</span> <span class="title">ImageView</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORNER_NONE = <span class="number">0</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORNER_TOP_LEFT = <span class="number">1</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORNER_TOP_RIGHT = <span class="number">1</span> &lt;&lt; <span class="number">1</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORNER_BOTTOM_LEFT = <span class="number">1</span> &lt;&lt; <span class="number">2</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORNER_BOTTOM_RIGHT = <span class="number">1</span> &lt;&lt; <span class="number">3</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORNER_ALL = CORNER_TOP_LEFT | CORNER_TOP_RIGHT | CORNER_BOTTOM_LEFT | CORNER_BOTTOM_RIGHT;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundedImageView</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundedImageView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, attrs);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setImage</span><span class="params">(Bitmap bmp, <span class="keyword">int</span> radius, <span class="keyword">int</span> corners)</span> </span>&#123;</div><div class="line">        setImageDrawable(<span class="keyword">new</span> RoundedDrawable(bmp, radius, corners));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">RoundedDrawable</span> <span class="keyword">extends</span> <span class="title">Drawable</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">float</span> cornerRadius;</div><div class="line"></div><div class="line">        <span class="keyword">protected</span> <span class="keyword">final</span> RectF mRect = <span class="keyword">new</span> RectF(), mBitmapRect;</div><div class="line">        <span class="keyword">protected</span> <span class="keyword">final</span> BitmapShader bitmapShader;</div><div class="line">        <span class="keyword">protected</span> <span class="keyword">final</span> Paint paint;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> corners;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">RoundedDrawable</span><span class="params">(Bitmap bitmap, <span class="keyword">int</span> cornerRadius, <span class="keyword">int</span> corners)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.cornerRadius = cornerRadius;</div><div class="line">            <span class="keyword">this</span>.corners = corners;</div><div class="line"></div><div class="line">            bitmapShader = <span class="keyword">new</span> BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);</div><div class="line">            mBitmapRect = <span class="keyword">new</span> RectF(<span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight());</div><div class="line"></div><div class="line">            paint = <span class="keyword">new</span> Paint();</div><div class="line">            paint.setAntiAlias(<span class="keyword">true</span>);</div><div class="line">            paint.setShader(bitmapShader);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onBoundsChange</span><span class="params">(Rect bounds)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.onBoundsChange(bounds);</div><div class="line">            mRect.set(<span class="number">0</span>, <span class="number">0</span>, bounds.width(), bounds.height());</div><div class="line"></div><div class="line">            <span class="comment">// Resize the original bitmap to fit the new bound</span></div><div class="line">            Matrix shaderMatrix = <span class="keyword">new</span> Matrix();</div><div class="line">            shaderMatrix.setRectToRect(mBitmapRect, mRect, Matrix.ScaleToFit.FILL);</div><div class="line">            bitmapShader.setLocalMatrix(shaderMatrix);</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">            canvas.drawRoundRect(mRect, cornerRadius, cornerRadius, paint);</div><div class="line">            <span class="keyword">int</span> notRoundedCorners = corners ^ CORNER_ALL;</div><div class="line">            <span class="keyword">if</span> ((notRoundedCorners &amp; CORNER_TOP_LEFT) != <span class="number">0</span>) &#123;</div><div class="line">                canvas.drawRect(<span class="number">0</span>, <span class="number">0</span>, cornerRadius, cornerRadius, paint);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> ((notRoundedCorners &amp; CORNER_TOP_RIGHT) != <span class="number">0</span>) &#123;</div><div class="line">                canvas.drawRect(mRect.right - cornerRadius, <span class="number">0</span>, mRect.right, cornerRadius, paint);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> ((notRoundedCorners &amp; CORNER_BOTTOM_LEFT) != <span class="number">0</span>) &#123;</div><div class="line">                canvas.drawRect(<span class="number">0</span>, mRect.bottom - cornerRadius, cornerRadius, mRect.bottom, paint);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> ((notRoundedCorners &amp; CORNER_BOTTOM_RIGHT) != <span class="number">0</span>) &#123;</div><div class="line">                canvas.drawRect(mRect.right - cornerRadius, mRect.bottom - cornerRadius, mRect.right, mRect.bottom, paint);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getOpacity</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> PixelFormat.TRANSLUCENT;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAlpha</span><span class="params">(<span class="keyword">int</span> alpha)</span> </span>&#123;</div><div class="line">            paint.setAlpha(alpha);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setColorFilter</span><span class="params">(ColorFilter cf)</span> </span>&#123;</div><div class="line">            paint.setColorFilter(cf);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<p><img src="left.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;<img src="tl_br.png" alt=""></p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/12/29/rounded-image/">http://www.angeldevil.me/2014/12/29/rounded-image/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/12/24/toolbar-as-actionbar-and-centered-title/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Toolbar作为ActionBar与标题居中
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/03/19/a-bug-in-universal-image-loader/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UniversalImageLoader的一个小问题</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/12/29/rounded-image/" data-title="圆角图片，可以指定特定的角为圆角" data-url="http://www.angeldevil.me/2014/12/29/rounded-image/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

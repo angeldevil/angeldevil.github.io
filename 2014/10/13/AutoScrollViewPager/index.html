@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>AutoScrollViewPager | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="很多程序有循环播放的界面，比如广告，活动等。这种界面的实现一般情况下会多个元素自动播放，无限循环，网上找了下，主要有两种实现方式：">
+<meta name="keywords" content="Android,ViewPager">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AutoScrollViewPager">
+<meta property="og:url" content="http://www.angeldevil.me/2014/10/13/AutoScrollViewPager/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="很多程序有循环播放的界面，比如广告，活动等。这种界面的实现一般情况下会多个元素自动播放，无限循环，网上找了下，主要有两种实现方式：">
+<meta property="og:image" content="http://images.cnitblog.com/blog/405193/201306/09143039-879985de15714f779303f7f01ddbbaca.png">
+<meta property="og:image" content="https://github.com/angeldevil/AutoScrollViewPager/raw/master/art/demo.gif">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AutoScrollViewPager">
+<meta name="twitter:description" content="很多程序有循环播放的界面，比如广告，活动等。这种界面的实现一般情况下会多个元素自动播放，无限循环，网上找了下，主要有两种实现方式：">
+<meta name="twitter:image" content="http://images.cnitblog.com/blog/405193/201306/09143039-879985de15714f779303f7f01ddbbaca.png">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-AutoScrollViewPager" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/10/13/AutoScrollViewPager/" class="article-date">
+  	<time datetime="2014-10-13T07:24:19.000Z" itemprop="datePublished">10月 13 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AutoScrollViewPager
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ViewPager/">ViewPager</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很多程序有循环播放的界面，比如广告，活动等。这种界面的实现一般情况下会多个元素自动播放，无限循环，网上找了下，主要有两种实现方式：</p>
+<a id="more"></a>
+<ul>
+<li>ViewPager有非常多个元素来实现无缝循环</li>
+<li>在ViewPager的前后分别插入原来的最后一页和第一页，如下图所示，直接引用别人的图片了：<br><img src="http://images.cnitblog.com/blog/405193/201306/09143039-879985de15714f779303f7f01ddbbaca.png" alt=""></li>
+</ul>
+<p>一般这种页面都会有指示当前页面的小圆点，这个小圆点可以硬编码，也可以使用ViewPagerIndicator来实现，硬编码不太方便，而使用ViewPagerIndicator的话也有一点问题，直接就把第一种方法排除了，第二种方法也没有发现现成的好的实现，所以就自己按这个思路实现了一个，效果如下所示：</p>
+<p><img src="https://github.com/angeldevil/AutoScrollViewPager/raw/master/art/demo.gif" alt=""></p>
+<p>因为要在实际的Adapter前后各加一页数据，所以写了一个<code>AutoScrollPagerAdapter</code>封装用户指定的Adapter，并重写了ViewPager的<code>setAdapter</code>方法使这个封装透明化，并重写了<code>getAdapter</code>返回原来的Adapter，这样也兼容了PagerIndicator</p>
+<p>对于<code>OnPageChangeListener</code>，由于额外添加了两个页面，<code>OnPageChangeListener</code>中页面的position肯定会有变化，所以需要做下处理，设置一个内部的<code>InnerOnPageChangeListener</code>并重写了<code>setOnPageChangeListener</code>使之透明化</p>
+<p>详细实现可以直接看代码：<a href="https://github.com/angeldevil/AutoScrollViewPager" target="_blank" rel="external">AutoScrollViewPager</a>，重要的地方加了注释，这里就不多说了，以下是主要方法</p>
+<ul>
+<li>startAutoScroll([intervalInMillis])：自动播放，可以指定播放间隔，单位为ms，如果不指定，采用上一次start时指定的值或默认值2s</li>
+<li>stopAutoScroll()：停止自动播放</li>
+<li>setInterval(long)：播放间隔</li>
+<li>setScrollFactor(double)：页面间切换时间因子，页面切换的时间会乘以这个Factor</li>
+<li>setOnPageClickListener(AutoScrollViewPager.OnPageClickListener)：监听页面点击</li>
+</ul>
+<p>有两点需要说一下。</p>
+<p>一、OnPageSelected</p>
+<p>对用户指定的Adapter的第一页和最后一页会调用两次<code>OnPageSelected</code>，在<code>InnerOnPageChangeListener.onPageSelected</code>中有注释说明。也有解决方法，但这样要么对ViewPagerIndicator会有影响，要么有其他一点很微小的影响，也懒得想其他解决方法，因为感觉影响不大，所以现在还是触发两次。</p>
+<p>二、ScrollFactor</p>
+<p>对于ScrollFactor，自动播放时默认的滚动速度是很快的，所以添加了这个方法修改滚动速度，先看下ViewPager的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> duration = <span class="number">0</span>;</div><div class="line">velocity = Math.abs(velocity);</div><div class="line"><span class="keyword">if</span> (velocity &gt; <span class="number">0</span>) &#123;</div><div class="line">    duration = <span class="number">4</span> * Math.round(<span class="number">1000</span> * Math.abs(distance / velocity));</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">float</span> pageWidth = width * mAdapter.getPageWidth(mCurItem);</div><div class="line">    <span class="keyword">final</span> <span class="keyword">float</span> pageDelta = (<span class="keyword">float</span>) Math.abs(dx) / (pageWidth + mPageMargin);</div><div class="line">    duration = (<span class="keyword">int</span>) ((pageDelta + <span class="number">1</span>) * <span class="number">100</span>);</div><div class="line">&#125;</div><div class="line">duration = Math.min(duration, MAX_SETTLE_DURATION); </div><div class="line">mScroller.startScroll(sx, sy, dx, dy, duration);</div></pre></td></tr></table></figure>
+<p>用户用手滑动翻页时velocity &gt; 0，用代码翻页时velocity = 0，使用的Scroller计算滚动，所以设置了一个自定义的Scroller用来改变duration，但是其实用户手动滑动时的滚动速度还是可以的，只是自动翻页时速度过快，而通过设置Scroller的方法改变duration会同时影响两者，所以在<code>onTouch</code>做了下处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">    <span class="comment">// Manually swipe not affected by scroll factor.</span></div><div class="line">    <span class="keyword">if</span> (scroller != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">double</span> lastFactor = scroller.getFactor();</div><div class="line">        scroller.setFactor(<span class="number">1</span>);</div><div class="line">        post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                scroller.setFactor(lastFactor);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">break</span>;</div></pre></td></tr></table></figure>
+<p>源码：<a href="https://github.com/angeldevil/AutoScrollViewPager" target="_blank" rel="external">AutoScrollViewPager</a></p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/10/13/AutoScrollViewPager/">http://www.angeldevil.me/2014/10/13/AutoScrollViewPager/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/09/23/Android-Secret-Code/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android Secret Code
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/12/24/toolbar-as-actionbar-and-centered-title/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Toolbar作为ActionBar与标题居中</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/10/13/AutoScrollViewPager/" data-title="AutoScrollViewPager" data-url="http://www.angeldevil.me/2014/10/13/AutoScrollViewPager/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

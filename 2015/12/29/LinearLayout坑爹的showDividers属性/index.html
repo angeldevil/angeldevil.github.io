@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>LinearLayout坑爹的showDividers属性 | AngelDevil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="LinearLayout有个属性叫showDividers，可以用来在LinearLayout的Child之间显示一条分割线，使用起来很是方便，但是，Android啊，总是在开始时感觉有很多方便开发的东西，但使用越久，越发现坑很多。">
+<meta name="keywords" content="Android,LinearLayout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinearLayout坑爹的showDividers属性">
+<meta property="og:url" content="http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/index.html">
+<meta property="og:site_name" content="AngelDevil">
+<meta property="og:description" content="LinearLayout有个属性叫showDividers，可以用来在LinearLayout的Child之间显示一条分割线，使用起来很是方便，但是，Android啊，总是在开始时感觉有很多方便开发的东西，但使用越久，越发现坑很多。">
+<meta property="og:image" content="http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/normal.png">
+<meta property="og:image" content="http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/last_gone.png">
+<meta property="og:image" content="http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/last_with_margin_gone.png">
+<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LinearLayout坑爹的showDividers属性">
+<meta name="twitter:description" content="LinearLayout有个属性叫showDividers，可以用来在LinearLayout的Child之间显示一条分割线，使用起来很是方便，但是，Android啊，总是在开始时感觉有很多方便开发的东西，但使用越久，越发现坑很多。">
+<meta name="twitter:image" content="http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/normal.png">
+  
+    <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/logo.png">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">AngelDevil</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Focus on Android</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Android">Android</a></li>
+				        
+							<li><a href="/tags/Java">Java</a></li>
+				        
+							<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ActionBar/" style="font-size: 13.33px;">ActionBar</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/Android-Secret-Code/" style="font-size: 10px;">Android Secret Code</a> <a href="/tags/GC/" style="font-size: 10px;">GC</a> <a href="/tags/Glide/" style="font-size: 10px;">Glide</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/LinearLayout/" style="font-size: 10px;">LinearLayout</a> <a href="/tags/Navigation-Bar/" style="font-size: 10px;">Navigation Bar</a> <a href="/tags/PackageManagerService/" style="font-size: 10px;">PackageManagerService</a> <a href="/tags/Preview-Window/" style="font-size: 10px;">Preview Window</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/Starting-Window/" style="font-size: 10px;">Starting Window</a> <a href="/tags/Status-Bar/" style="font-size: 10px;">Status Bar</a> <a href="/tags/Toolbar/" style="font-size: 10px;">Toolbar</a> <a href="/tags/ViewPager/" style="font-size: 10px;">ViewPager</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/思维/" style="font-size: 13.33px;">思维</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/读书笔记/" style="font-size: 16.67px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">AngelDevil</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/logo.png">
+				<hgroup>
+				  <h1 class="header-author">AngelDevil</h1>
+				</hgroup>
+			</div>
+			
+			<p class="header-subtitle">Focus on Android</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Android">Android</a></li>
+		        
+					<li><a href="/tags/Java">Java</a></li>
+		        
+					<li><a href="http://www.cnblogs.com/angeldevil">以前文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/angeldevil" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/angeldeviljy" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:angeldeviljy@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-LinearLayout坑爹的showDividers属性" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/29/LinearLayout坑爹的showDividers属性/" class="article-date">
+  	<time datetime="2015-12-29T05:10:51.000Z" itemprop="datePublished">12月 29 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LinearLayout坑爹的showDividers属性
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LinearLayout/">LinearLayout</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>LinearLayout有个属性叫<code>showDividers</code>，可以用来在LinearLayout的Child之间显示一条分割线，使用起来很是方便，但是，Android啊，总是在开始时感觉有很多方便开发的东西，但使用越久，越发现坑很多。</p>
+<a id="more"></a>
+<p>下面用一个Demo来说明。</p>
+<p>首先新建一个布局文件，内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line">    <span class="attr">android:paddingBottom</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">android:paddingTop</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"angeldevil.me.dividerdemo.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:divider</span>=<span class="string">"@drawable/divider"</span></div><div class="line">        <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line">        <span class="attr">android:showDividers</span>=<span class="string">"beginning|middle|end"</span>&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"48dp"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#22000000"</span></div><div class="line">            <span class="attr">android:gravity</span>=<span class="string">"center_vertical"</span></div><div class="line">            <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">            <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"Hello World! 1"</span>/&gt;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"48dp"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#22000000"</span></div><div class="line">            <span class="attr">android:gravity</span>=<span class="string">"center_vertical"</span></div><div class="line">            <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">            <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"Hello World! 2"</span>/&gt;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"48dp"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#22000000"</span></div><div class="line">            <span class="attr">android:gravity</span>=<span class="string">"center_vertical"</span></div><div class="line">            <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">            <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"Hello World! 3"</span></div><div class="line">            <span class="attr">android:visibility</span>=<span class="string">"visible"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"48dp"</span></div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@color/colorPrimary"</span></div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"center_vertical"</span></div><div class="line">        <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"View outside LinearLayout"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>很简单，就是一个LinearLayout，有3个Child，并设置<code>showDividers=&quot;beginning|middle|bottom&quot;</code>显示一条分割线，为了后面说明问题，还在外层添加了一个LinearLayout，并添加了一个TextView。</p>
+<p>divider.xml内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">      <span class="attr">android:shape</span>=<span class="string">"rectangle"</span>&gt;</div><div class="line"></div><div class="line">   <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"@color/colorAccent"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">size</span> <span class="attr">android:height</span>=<span class="string">"4dp"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>为了方便查看效果，Divider高度定义为了4dp，下面是显示效果。</p>
+<p><img src="normal.png" alt=""></p>
+<p>一切都很正常，确实很方便，但是，如果你把显示Divider的LinearLayout的最后一项的visibility设置为gone试试，下面是实际效果，测试环境Android 5.1</p>
+<p><img src="last_gone.png" alt=""></p>
+<p>可以看到，底部的Divider不见了，严格来说，不是不见了，“View outside LinearLayout”与这个LinearLayout的间距还在，只是是透明的，说明系统计算高度时正确地把Divider的高度计算进去了，但却没有draw出来。</p>
+<p>那是什么原因呢，我们跟进源码看一下。先看LinearLayout的onMeasuer</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">measureVertical</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; ++i) &#123;</div><div class="line">            <span class="keyword">final</span> View child = getVirtualChildAt(i);</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (child == <span class="keyword">null</span>) &#123;</div><div class="line">                mTotalLength += measureNullChild(i);</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (child.getVisibility() == View.GONE) &#123;</div><div class="line">               i += getChildrenSkipCount(child, i);</div><div class="line">               <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (hasDividerBeforeChildAt(i)) &#123;</div><div class="line">                mTotalLength += mDividerHeight;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (mTotalLength &gt; <span class="number">0</span> &amp;&amp; hasDividerBeforeChildAt(count)) &#123;</div><div class="line">            mTotalLength += mDividerHeight;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">｝</div></pre></td></tr></table></figure>
+<p>可以看到，LinearLayout遍历了所有的Child，如果Visibility不为GONE就判断是否需要在它前面添加一个Divider，如果需要，就需要增加一个Divider的高度，因为for循环里判断的是是否需要显示每一个Child之前的Divider，所以end的那一个Divider需要单独判断，就是下面的<code>hasDividerBeforeChildAt(count)</code>，从代码看，measure过程一切正常，从前面的截图也可以看到，高度计算是没有问题的。</p>
+<p>既然是绘制不正常，那就继续看下<code>onDraw</code>函数，由于是在5.1下测试的，找下5.1的源码看看</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mDivider == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (mOrientation == VERTICAL) &#123;</div><div class="line">        drawDividersVertical(canvas);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        drawDividersHorizontal(canvas);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">drawDividersVertical</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> count = getVirtualChildCount();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">        <span class="keyword">final</span> View child = getVirtualChildAt(i);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (child != <span class="keyword">null</span> &amp;&amp; child.getVisibility() != GONE) &#123;</div><div class="line">            <span class="keyword">if</span> (hasDividerBeforeChildAt(i)) &#123;</div><div class="line">                <span class="keyword">final</span> LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">                <span class="keyword">final</span> <span class="keyword">int</span> top = child.getTop() - lp.topMargin - mDividerHeight;</div><div class="line">                drawHorizontalDivider(canvas, top);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (hasDividerBeforeChildAt(count)) &#123;</div><div class="line">        <span class="keyword">final</span> View child = getVirtualChildAt(count - <span class="number">1</span>);</div><div class="line">        <span class="keyword">int</span> bottom = <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span> (child == <span class="keyword">null</span>) &#123;</div><div class="line">            bottom = getHeight() - getPaddingBottom() - mDividerHeight;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">final</span> LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">            bottom = child.getBottom() + lp.bottomMargin;</div><div class="line">        &#125;</div><div class="line">        drawHorizontalDivider(canvas, bottom);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于只是最后一条分割线画错了，所以我们只需要看<code>drawDividersVertical</code>的最后一个<code>if</code>语句，它的逻辑是，找到最后一个child，并在<code>child.getBottom() + lp.bottomMargin</code>下画一条线。</p>
+<p>问题就在这里了，最后一个<strong>Child的Visibility为GONE，所以<code>child.getBottom()</code>结果是0结果就是这条线会画到LinearLayout的顶部，和顶部的Divider重合</strong>。</p>
+<p>如果最后一个View的marginBottom不为0，错误就更明显了，如图所示，验证了这段代码的错误逻辑（为了看到这条错误的分割线，故意把TextView的背景带上了透明度）</p>
+<p><img src="last_with_margin_gone.png" alt=""></p>
+<p>那解决办法是什么呢，也很简单，不要给<code>showDividers</code>属性设置end值，只设置beginning|middle，然后给LinearLayout最后添加个高度为0的空白View这样无论隐藏哪一个Child就都没问题了。</p>
+<p>在Android 6.0上已经修复了这一问题，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">drawDividersVertical</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> count = getVirtualChildCount();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">        <span class="keyword">final</span> View child = getVirtualChildAt(i);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (child != <span class="keyword">null</span> &amp;&amp; child.getVisibility() != GONE) &#123;</div><div class="line">            <span class="keyword">if</span> (hasDividerBeforeChildAt(i)) &#123;</div><div class="line">                <span class="keyword">final</span> LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">                <span class="keyword">final</span> <span class="keyword">int</span> top = child.getTop() - lp.topMargin - mDividerHeight;</div><div class="line">                drawHorizontalDivider(canvas, top);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (hasDividerBeforeChildAt(count)) &#123;</div><div class="line">        <span class="keyword">final</span> View child = getLastNonGoneChild();</div><div class="line">        <span class="keyword">int</span> bottom = <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span> (child == <span class="keyword">null</span>) &#123;</div><div class="line">            bottom = getHeight() - getPaddingBottom() - mDividerHeight;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">final</span> LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">            bottom = child.getBottom() + lp.bottomMargin;</div><div class="line">        &#125;</div><div class="line">        drawHorizontalDivider(canvas, bottom);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>画最后一条分割线时已经不再是画到最后一个Child的下面，而是画到最后一个Visibility不为GONE的Child的下面。</p>
+
+        
+          <div id="signature">
+  作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
+  出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/">http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/</a>
+<p>转载请注明出处！</p>
+</div>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/09/08/The-smoothScrollToPosition-duration-of-RecyclerView/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          RecyclerView smoothScrollToPosition的滚动时间
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/05/glide/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Glide源码导读</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_weixin">微信</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_cqq">QQ</a>
+                <a class="jiathis_button_douban">豆瓣</a>
+                <a class="jiathis_button_pocket">Pocket</a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <a class="jiathis_counter_style"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015/12/29/LinearLayout坑爹的showDividers属性/" data-title="LinearLayout坑爹的showDividers属性" data-url="http://www.angeldevil.me/2015/12/29/LinearLayout坑爹的showDividers属性/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"angeldevil"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 AngelDevil
+    	</div>
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F17962cd5cd0aa2044c1bdaa2de3d2dde' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/mobile.js"></script>
+<script src="/js/main.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=34967983" charset="UTF-8"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>
