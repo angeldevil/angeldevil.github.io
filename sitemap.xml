@@ -2,14 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.angeldevil.me/2015/09/08/Two-problems-about-LinkMovementMethod-and-URLSPan/</loc>
+    <loc>http://www.angeldevil.me/2014/07/10/custom-actionbar-title-and-menu/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/07/24/Android-SQLite-Debug/</loc>
+    <loc>http://www.angeldevil.me/2014/09/02/About-Status-Bar-and-Navigation-Bar/</loc>
+    
+    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.angeldevil.me/2014/10/13/AutoScrollViewPager/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
@@ -30,7 +37,7 @@
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/10/13/AutoScrollViewPager/</loc>
+    <loc>http://www.angeldevil.me/2014/06/23/Java-GC/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
@@ -44,7 +51,7 @@
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/06/23/Java-GC/</loc>
+    <loc>http://www.angeldevil.me/2014/08/27/Long-click-about-Clickable(URLSpan)/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
@@ -58,7 +65,21 @@
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/08/27/Long-click-about-Clickable(URLSpan)/</loc>
+    <loc>http://www.angeldevil.me/2014/07/03/PackageManagerService/</loc>
+    
+    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.angeldevil.me/2015/09/08/Two-problems-about-LinkMovementMethod-and-URLSPan/</loc>
+    
+    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.angeldevil.me/2014/07/24/Android-SQLite-Debug/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
@@ -72,35 +93,7 @@
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/07/03/PackageManagerService/</loc>
-    
-    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.angeldevil.me/2014/09/02/About-Status-Bar-and-Navigation-Bar/</loc>
-    
-    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.angeldevil.me/2014/07/10/custom-actionbar-title-and-menu/</loc>
-    
-    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.angeldevil.me/2015/03/19/a-bug-in-universal-image-loader/</loc>
-    
-    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.angeldevil.me/2014/07/10/dark-time/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
@@ -114,14 +107,14 @@
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2016/09/05/glide/</loc>
+    <loc>http://www.angeldevil.me/2014/07/10/dark-time/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/07/01/how-to-read-a-book/</loc>
+    <loc>http://www.angeldevil.me/2016/09/05/glide/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
@@ -135,7 +128,14 @@
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/12/29/rounded-image/</loc>
+    <loc>http://www.angeldevil.me/2014/06/19/jvm/</loc>
+    
+    <lastmod>2017-03-15T08:34:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.angeldevil.me/2014/07/01/how-to-read-a-book/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
@@ -149,7 +149,7 @@
   </url>
   
   <url>
-    <loc>http://www.angeldevil.me/2014/06/19/jvm/</loc>
+    <loc>http://www.angeldevil.me/2014/12/29/rounded-image/</loc>
     
     <lastmod>2017-03-15T08:34:57.000Z</lastmod>
     
