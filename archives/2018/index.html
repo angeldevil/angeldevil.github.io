@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>AngelDevil</title>
+  <title>Archives: 2018 | AngelDevil</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android">
 <meta property="og:type" content="website">
 <meta property="og:title" content="AngelDevil">
-<meta property="og:url" content="http://www.angeldevil.me/page/2/index.html">
+<meta property="og:url" content="http://www.angeldevil.me/archives/2018/index.html">
 <meta property="og:site_name" content="AngelDevil">
 <meta property="og:description" content="AngelDevil的个人博客，记录自己的所看，所思，所学，主要关注点在Android">
 <meta name="twitter:card" content="summary">
@@ -182,182 +182,50 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Java-GC" class="article article-type-post" itemscope itemprop="blogPost">
   
-    <div class="article-meta">
-      <a href="/2014/06/23/Java-GC/" class="article-date">
-  	<time datetime="2014-06-23T05:00:37.000Z" itemprop="datePublished">6月 23 2014</time>
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/11/09/ViewPager-CoordinatorLayout与RecyclerView一起使用时滑动的Bug/" class="archive-article-date">
+  	<time datetime="2018-11-09T10:08:47.000Z" itemprop="datePublished">11月 9</time>
 </a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+        </div>
+    	 
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/23/Java-GC/">Java垃圾回收</a>
+      <a class="archive-article-title" href="/2018/11/09/ViewPager-CoordinatorLayout与RecyclerView一起使用时滑动的Bug/">ViewPager, CoordinatorLayout与RecyclerView一起使用时滑动的Bug</a>
     </h1>
   
 
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h1><h2 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h2><p>堆中的每个对象都有一个引用计数，当对象被引用时引用计数加1，当对象的引用被重新赋值或超出有效区域时引用计数减1，当一个对象被回收后，它所引用的对象的引用计算减1。当一个对象的引用计数变为0时就被回收。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GC/">GC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/垃圾回收/">垃圾回收</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
 	</div>
 
-      
+          
 
-      
-        <p class="article-more-link">
-          <a  href="/2014/06/23/Java-GC/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
-  
 </article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android-Starting-Window(Preview-Window)" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/06/21/Android-Starting-Window(Preview-Window)/" class="article-date">
-  	<time datetime="2014-06-21T03:56:05.000Z" itemprop="datePublished">6月 21 2014</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/21/Android-Starting-Window(Preview-Window)/">Android Starting Window(Preview Window)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当打开一个Activity时，如果这个Activity所属的应用还没有在运行，系统会为这个Activity所属的应用创建一个进程，但进程的创建与初始化都需要时间，在这个动作完成之前系统要做什么呢？如果没有任何反应的话，如果程序初始化的时间很长，用户可能还以为没有点到相应的位置。但此时所启动的程序还没初始化完，既无法显示程序，又不能停在原处不做任何动作，怎么办？这就有了<strong>Starting Window</strong>的概念，也可以称之为<strong>Preview Window</strong>。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Preview-Window/">Preview Window</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Starting-Window/">Starting Window</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/06/21/Android-Starting-Window(Preview-Window)/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-jvm" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/06/19/jvm/" class="article-date">
-  	<time datetime="2014-06-19T08:55:05.000Z" itemprop="datePublished">6月 19 2014</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/19/jvm/">JVM虚拟机结构</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>JVM的主要结构如下图所示，图片引用自<a href="http://blog.hesey.net/2011/04/introduction-to-java-virtual-machine.html">舒の随想日记</a>。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/06/19/jvm/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </nav>
+    </div></section>
   
+
 
 </div>
       <footer id="footer">

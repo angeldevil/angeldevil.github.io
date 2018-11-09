@@ -182,6 +182,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ViewPager-CoordinatorLayout与RecyclerView一起使用时滑动的Bug" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/09/ViewPager-CoordinatorLayout与RecyclerView一起使用时滑动的Bug/" class="article-date">
+  	<time datetime="2018-11-09T10:08:47.000Z" itemprop="datePublished">11月 9 2018</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/09/ViewPager-CoordinatorLayout与RecyclerView一起使用时滑动的Bug/">ViewPager, CoordinatorLayout与RecyclerView一起使用时滑动的Bug</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>假设一个页面而已是这样的</p>
+<pre>
+          ViewPager
+              |
+Fragment  Fragment    Fragment
+              |
+       CoordinatorLayout
+              |
+         RecyclerView
+</pre>
+
+<p>向上滑动一点RecyclerView，然后再快速下拉，让RecyclerView快速fling到顶部，到顶部后RecyclerView会停止滚动，这时马上左右滑，会发现ViewPager无法左右滑动，要等2-3秒，或手指触摸一下屏幕后，ViewPager才可以响应左右滑动。</p>
+<p>如果RecyclerView外部没有NestedScrollingParent或RecyclerView禁用了NestedScroll就没问题。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/11/09/ViewPager-CoordinatorLayout与RecyclerView一起使用时滑动的Bug/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-glide" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1254,63 +1323,6 @@
       
         <p class="article-more-link">
           <a  href="/2014/07/01/how-to-read-a-book/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Java-GC" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/06/23/Java-GC/" class="article-date">
-  	<time datetime="2014-06-23T05:00:37.000Z" itemprop="datePublished">6月 23 2014</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/23/Java-GC/">Java垃圾回收</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h1><h2 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h2><p>堆中的每个对象都有一个引用计数，当对象被引用时引用计数加1，当对象的引用被重新赋值或超出有效区域时引用计数减1，当一个对象被回收后，它所引用的对象的引用计算减1。当一个对象的引用计数变为0时就被回收。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GC/">GC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/垃圾回收/">垃圾回收</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/06/23/Java-GC/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
