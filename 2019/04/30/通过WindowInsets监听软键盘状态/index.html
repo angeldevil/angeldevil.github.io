@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Android Starting Window(Preview Window) | AngelDevil</title>
+  <title>通过WindowInsets监听软键盘状态 | AngelDevil</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当打开一个Activity时，如果这个Activity所属的应用还没有在运行，系统会为这个Activity所属的应用创建一个进程，但进程的创建与初始化都需要时间，在这个动作完成之前系统要做什么呢？如果没有任何反应的话，如果程序初始化的时间很长，用户可能还以为没有点到相应的位置。但此时所启动的程序还没初始化完，既无法显示程序，又不能停在原处不做任何动作，怎么办？这就有了Starting Window">
-<meta name="keywords" content="Android,Preview Window,Starting Window">
+  <meta name="description" content="如果不了解状态栏、Windows Insets相关的内容，可以先看下这篇文章">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android Starting Window(Preview Window)">
-<meta property="og:url" content="http://www.angeldevil.me/2014/06/21/Android-Starting-Window(Preview-Window)/index.html">
+<meta property="og:title" content="通过WindowInsets监听软键盘状态">
+<meta property="og:url" content="http://www.angeldevil.me/2019/04/30/通过WindowInsets监听软键盘状态/index.html">
 <meta property="og:site_name" content="AngelDevil">
-<meta property="og:description" content="当打开一个Activity时，如果这个Activity所属的应用还没有在运行，系统会为这个Activity所属的应用创建一个进程，但进程的创建与初始化都需要时间，在这个动作完成之前系统要做什么呢？如果没有任何反应的话，如果程序初始化的时间很长，用户可能还以为没有点到相应的位置。但此时所启动的程序还没初始化完，既无法显示程序，又不能停在原处不做任何动作，怎么办？这就有了Starting Window">
-<meta property="og:updated_time" content="2017-03-15T08:34:57.000Z">
+<meta property="og:description" content="如果不了解状态栏、Windows Insets相关的内容，可以先看下这篇文章">
+<meta property="og:updated_time" content="2019-04-30T02:48:58.505Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Starting Window(Preview Window)">
-<meta name="twitter:description" content="当打开一个Activity时，如果这个Activity所属的应用还没有在运行，系统会为这个Activity所属的应用创建一个进程，但进程的创建与初始化都需要时间，在这个动作完成之前系统要做什么呢？如果没有任何反应的话，如果程序初始化的时间很长，用户可能还以为没有点到相应的位置。但此时所启动的程序还没初始化完，既无法显示程序，又不能停在原处不做任何动作，怎么办？这就有了Starting Window">
+<meta name="twitter:title" content="通过WindowInsets监听软键盘状态">
+<meta name="twitter:description" content="如果不了解状态栏、Windows Insets相关的内容，可以先看下这篇文章">
   
     <link rel="alternative" href="/atom.xml" title="AngelDevil" type="application/atom+xml">
   
@@ -182,11 +182,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-Android-Starting-Window(Preview-Window)" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-通过WindowInsets监听软键盘状态" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/06/21/Android-Starting-Window(Preview-Window)/" class="article-date">
-  	<time datetime="2014-06-21T03:56:05.000Z" itemprop="datePublished">6月 21 2014</time>
+      <a href="/2019/04/30/通过WindowInsets监听软键盘状态/" class="article-date">
+  	<time datetime="2019-04-30T02:18:55.000Z" itemprop="datePublished">4月 30 2019</time>
 </a>
     </div>
   
@@ -199,7 +199,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android Starting Window(Preview Window)
+      通过WindowInsets监听软键盘状态
     </h1>
   
 
@@ -208,7 +208,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Preview-Window/">Preview Window</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Starting-Window/">Starting Window</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
 	</div>
 
         
@@ -219,23 +219,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>当打开一个Activity时，如果这个Activity所属的应用还没有在运行，系统会为这个Activity所属的应用创建一个进程，但进程的创建与初始化都需要时间，在这个动作完成之前系统要做什么呢？如果没有任何反应的话，如果程序初始化的时间很长，用户可能还以为没有点到相应的位置。但此时所启动的程序还没初始化完，既无法显示程序，又不能停在原处不做任何动作，怎么办？这就有了<strong>Starting Window</strong>的概念，也可以称之为<strong>Preview Window</strong>。</p>
+        <p>如果不了解状态栏、Windows Insets相关的内容，可以先看下<a href="/2014/09/02/About-Status-Bar-and-Navigation-Bar">这篇文章</a></p>
 <a id="more"></a>
-<p>Starting Window就是一个用于在应用程序进程创建并初始化成功前显示的临时窗口，拥有的Window Type是<a href="http://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#TYPE_APPLICATION_STARTING" target="_blank" rel="external">TYPE_APPLICATION_STARTING</a>。在程序初始化完成前显示这个窗口，以告知用户系统已经知道了他要打开这个应用并做出了响应，当程序初始化完成后显示用户UI并移除这个窗口。</p>
-<p>这个Starting Window我们都见过，不过可能没留意过，其实就是开启程序时黑屏的那个窗口，够丑的。不过也没办法，每个程序的界面都不是同的，系统只有默认显示一个很简单的窗口了。</p>
-<p>如果所谓的Starting Window只是一个黑屏的窗口的话，那这个功能未免也太鸡肋了。其实系统是可以根据每个程序的Theme显示不同的样子的。</p>
-<p>启动应用的时候，虽然我们的程序还没初始化，但程序内的组件可是在程序安装的时候就被系统分析注册了的。我们可以针对每个Application和Activity设置不同的Theme，系统就是根据这个Theme初始化Starting Window的。Window布局的顶层是DecorView，Starting Window就是显示一个空的但是应用了Activity指定的Theme（如果Activity没有指定就用Application的）的DecorView。</p>
-<p>在Theme中可以指定很多东西，如ActionBar的样式，窗口的背景，Activity的图标等，通过给Activity指定Theme，系统就可以在我们的应用初始化完成之前将这个Theme应用到Starting Window，这样看起来就像我们的应用已经启动起来了，只是数据内容还没有初始化好。</p>
-<p>所以，如果你的Activity的背景只是简单的纯色的话，最好直接通过Theme把它应用到Activity的Background，而不是设置为顶层Layout的背景，如果真的需要给顶层Layout设置背景，也可以给<code>android:windowBackground</code>设置一个和Activity UI相似的背景，为了防止Overdraw，在Activity的<code>onCreate</code>中通过<code>setWindowBackground()</code>再把窗口的背景设置为<code>null</code>。</p>
-<p>系统在显示Activity前显示一个Starting Window仅发生在需要为启动这个Activity创建进程时，一般情况下是一个应用的入口Activity（包含Lanuncher中显示的图标进入的Activity及被其他应用调用的Activity）。</p>
-<p>还有一种情况就是应用内有多个进程的情况（通过<code>android:process</code>），比如你的程序需要用单独的进程查看图片，当从你的应用的主进程进入图片浏览的Activity时，系统就会创建图片浏览的进程，如果图片浏览的Activity的需要使用的图标和Application指定的图标不一样的话就要注意了，系统显示图片进程中的Activity的Starting Window时不会使用这个Activity在Manifest中通过android:icon指定的图标，而只会使用Theme中指定的图标，如果没为这个Activity指定一个Theme或所指定的Theme中没有指定android:icon的话，系统会使用Application标签指定的android:icon，结果就是会看到Starting Window中显示一个图标，当Activity加载完后图标会变为Activity在Manifest中指定的android:icon，有一个变化的过程。</p>
-<p>更多介绍参考<a href="http://cyrilmottier.com/2013/01/23/android-app-launching-made-gorgeous/" target="_blank" rel="external">Android App Launching Made Gorgeous</a></p>
+<p>一般情况下，对于需要软键盘的页面，我们会用<code>adjustResize</code>让软键盘弹出时系统自动Resize我们的页面，如果想判断软键盘的高度，需要通过监听最外层布局的大小来间接判断，但如果我们想自己处理，或监听下软键盘的状态，就需要用一些其他方法了，而Window Insets就正好可以达成这个目标。</p>
+<p>首先，Activity的windowSoftInputMode仍需设置为<code>adjustResize</code>。</p>
+<p>然后，通过SYSTEM UI改变当软键盘弹出时系统对Activity布局的处理方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</div><div class="line">        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);</div></pre></td></tr></table></figure>
+<p>如果了解System UI的话，就知道通过上面的设置后，系统不给我们处理状态栏了，我们的Activity顶部的内容被状态栏遮住一部分，这时就要自己处理Window Insets做偏移。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_main), <span class="keyword">new</span> OnApplyWindowInsetsListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> WindowInsetsCompat <span class="title">onApplyWindowInsets</span><span class="params">(View view, WindowInsetsCompat windowInsetsCompat)</span> </span>&#123;</div><div class="line">        view.setPadding(<span class="number">0</span>,windowInsetsCompat.getSystemWindowInsetTop(),</div><div class="line">         <span class="number">0</span>, windowInsetsCompat.getSystemWindowInsetBottom());</div></pre></td></tr></table></figure>
+<p>通过<code>OnApplyWindowInsetsListener</code>，我们拿到了系统的Window Insets的大小，假设<code>R.id.activity_main</code>是Activity的根布局，把SystemWindowInsetTop设置为它的padding，我们的页面就可以正常显示了，跟没设置SYSTEM UI时一样。</p>
+<p>设置这个SYSTEM UI后，状态栏系统不帮我们处理了，SystemWindowInsetTop就是状态栏的高度，与此同时，虽然我们设置了<code>adjustResize</code>的windowSoftInputMode，但是系统也没再在软键盘弹出时帮我们Resize Activity布局的大小了。</p>
+<p>开头提到的文章介绍<code>View.SYSTEM_UI_FLAG_LAYOUT_STABLE</code>时说了，正常情况下状态栏显示隐藏，软键盘弹出隐藏时，系统会Resize我们Activity的布局，但当设置了这个Flag后，系统不对我们的布局进行Resize了，Activity布局的大小是不变的，也就是”Stable”的，当SatusBar或软键盘出现/隐藏需要页面做适配时，就通过Window Insets告诉我们需要适配的区域大小是多少，所以在之前的代码中，我们不只设置了activity_main的padding_top，还同时设置了padding_bottom，这样当软键盘弹出或隐藏时，Activity的布局就可以像正常的<code>adjustResize</code>一样做适配。</p>
+<p>所以，通过Window Insets，我们就可以通过SystemWindowInsetBottom的大小来判断软键盘是弹出还是隐藏了。</p>
+<p>另外，由于不是<code>adjustResize</code>默认的粗暴式Resize，页面适配的工作完全由我们自己做了，我们就可以记录软键盘高度，页面适配时做个动画让页面更流畅点什么的。</p>
 
         
           <div id="signature">
   作者：<a target="_blank" href="http://www.angeldevil.me">AngelDevil</a><br />
   出处：<a target="_blank" href="http://www.angeldevil.me">http://www.angeldevil.me</a><br />
-  原文链接：<a target="_blank" href="http://www.angeldevil.me/2014/06/21/Android-Starting-Window(Preview-Window)/">http://www.angeldevil.me/2014/06/21/Android-Starting-Window(Preview-Window)/</a>
+  原文链接：<a target="_blank" href="http://www.angeldevil.me/2019/04/30/通过WindowInsets监听软键盘状态/">http://www.angeldevil.me/2019/04/30/通过WindowInsets监听软键盘状态/</a>
 <p>转载请注明出处！</p>
 </div>
 
@@ -248,20 +250,15 @@
     
 <nav id="article-nav">
   
-    <a href="/2014/06/19/jvm/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/11/09/ViewPager-CoordinatorLayout与RecyclerView一起使用时滑动的Bug/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          JVM虚拟机结构
+          ViewPager, CoordinatorLayout与RecyclerView一起使用时滑动的Bug
         
       </div>
     </a>
   
-  
-    <a href="/2014/06/23/Java-GC/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Java垃圾回收</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
   
 </nav>
 
